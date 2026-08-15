@@ -5,6 +5,7 @@ body {
   color: #ffffff;
   font-family: 'Inter', -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
+  text-align: justify;
   overflow-x: hidden;
 }
 
