@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Your Signature Sunset Gradient -->
+    <linearGradient id="sunsetGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24" />  <!-- Amber -->
+      <stop offset="50%" stop-color="#f97316" />  <!-- Orange -->
+      <stop offset="100%" stop-color="#f43f5e" /> <!-- Rose -->
+    </linearGradient>
+  </defs>
+
+  <!-- Dark Mode Rounded Background for Tab Contrast -->
+  <rect width="512" height="512" rx="120" fill="#050505" />
+
+  <!-- The Hexagon Grid Tie-in -->
+  <path 
+    d="M 256 72 L 415.35 164 L 415.35 348 L 256 440 L 96.65 348 L 96.65 164 Z"
+    fill="none"
+    stroke="url(#sunsetGrad)"
+    stroke-width="48"
+    stroke-linejoin="round" 
+  />
+
+  <!-- The Stylized 'N' (Nadeem) -->
+  <path 
+    d="M 176 336 V 176 L 336 336 V 176"
+    fill="none"
+    stroke="url(#sunsetGrad)"
+    stroke-width="56"
+    stroke-linecap="round"
+    stroke-linejoin="round" 
+  />
+</svg>
