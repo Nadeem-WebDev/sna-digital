@@ -8,6 +8,7 @@ const navItems = [
   { name: 'Services', icon: Briefcase, href: '#services' },
   { name: 'Tech', icon: Layers, href: '#tech' },
   { name: 'Projects', icon: Folder, href: '#projects' },
+  { name: 'Reviews', icon: Star, href: '#reviews' }, // <-- Added Reviews Here
   { name: 'Contact', icon: Mail, href: '#contact' },
 ];
 

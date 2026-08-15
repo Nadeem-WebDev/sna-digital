@@ -1,21 +1,23 @@
 import { motion } from 'framer-motion';
 import { ExternalLink, Code } from 'lucide-react';
+import { FiGithub } from 'react-icons/fi';
+import SplitFlapText from '../reactbits/SplitFlapText'; // <-- Import safe animation
 
 const projects = [
   {
-    title: 'Salon Appointment Booking System',
-    description: 'Built a full-stack PERN salon booking system with live queue tracking and OTP email verification. Features an admin dashboard with Recharts analytics.',
-    tags: ['React.js', 'Node.js', 'Express.js', 'PostgreSQL'],
-    metric: 'Full-Stack',
-    liveUrl: 'https://salon-appointment-booking-system.onrender.com/',
+    title: 'Chat Application 2.0',
+    description: 'Built a real-time chat app with instant one-on-one messaging powered by Socket.io. Implemented secure JWT authentication with bcrypt hashing.',
+    tags: ['React.js', 'Node.js', 'Express.js', 'MongoDB', 'Socket.io'],
+    metric: 'Real-Time',
+    liveUrl: '#',
     githubUrl: '#'
   },
   {
-    title: 'Chat Application',
-    description: 'Built a real-time chat app with instant one-on-one messaging powered by Socket.io. Implemented secure JWT authentication with bcrypt hashing and Cloudinary image uploads.',
-    tags: ['React.js', 'Node.js', 'Express.js', 'MongoDB', 'Socket.io'],
-    metric: 'Real-Time',
-    liveUrl: 'https://chat-application-2-0.onrender.com',
+    title: 'Salon Appointment Booking',
+    description: 'Built a full-stack PERN salon booking system with live queue tracking and OTP email verification. Features an admin dashboard with Recharts analytics.',
+    tags: ['React.js', 'Node.js', 'Express.js', 'PostgreSQL'],
+    metric: 'Full-Stack',
+    liveUrl: '#',
     githubUrl: '#'
   },
   {
@@ -23,7 +25,7 @@ const projects = [
     description: 'Built a responsive bakery app with filtering by price, flavour, and other categories. Used REST APIs to fetch and display product data dynamically.',
     tags: ['React.js', 'Tailwind CSS', 'Vite', 'REST API'],
     metric: 'Dynamic UI',
-    liveUrl: 'https://honey-bakery-shop.vercel.app/',
+    liveUrl: '#',
     githubUrl: '#'
   },
   {
@@ -31,14 +33,6 @@ const projects = [
     description: 'A dynamic property listing application featuring advanced search filtering, high-res image galleries, and automated lead capture directly to WhatsApp.',
     tags: ['Web App', 'Lead Gen', 'MongoDB'],
     metric: '+45% Conversions',
-    liveUrl: '#',
-    githubUrl: '#'
-  },
-  {
-    title: 'Ad Analytics Dashboard',
-    description: 'Client-facing portal for tracking real-time ad spend, lead generation metrics, and monthly ROI reports directly from your browser.',
-    tags: ['Dashboard', 'React', 'APIs'],
-    metric: 'Real-time Sync',
     liveUrl: '#',
     githubUrl: '#'
   }
@@ -53,9 +47,8 @@ export const ProjectsSection = () => {
           <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">Real-world applications engineered to solve complex operational bottlenecks.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {projects.map((project, i) => {
-            // Logic to determine if it should open in a new tab
             const hasLiveUrl = project.liveUrl && project.liveUrl !== '#';
             const hasGithubUrl = project.githubUrl && project.githubUrl !== '#';
 
@@ -68,9 +61,11 @@ export const ProjectsSection = () => {
                 transition={{ delay: i * 0.1 }}
                 className="bg-white/[0.02] border border-white/10 rounded-3xl p-10 flex flex-col hover:border-orange-500/40 transition-colors shadow-2xl"
               >
+                {/* Applied the SplitFlapText animation safely here */}
                 <div className="mb-8 inline-block px-4 py-2 bg-orange-500/10 border border-orange-500/20 text-orange-500 text-xs font-bold rounded-lg w-max uppercase tracking-wider">
-                  {project.metric}
+                  <SplitFlapText text={project.metric} />
                 </div>
+                
                 <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">{project.title}</h3>
                 <p className="text-gray-400 mb-8 flex-grow leading-relaxed text-lg">{project.description}</p>
                 

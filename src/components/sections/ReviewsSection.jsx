@@ -49,7 +49,7 @@ export const ReviewsSection = () => {
   }, [isPaused, handleNext]);
 
   return (
-    <section className="w-full py-24 bg-[#050505] border-y border-neutral-800 flex justify-center overflow-hidden">
+    <section id='reviews' className="w-full py-24 bg-[#050505] border-y border-neutral-800 flex justify-center overflow-hidden">
       <div className="w-full max-w-5xl mx-auto px-6 text-center">
         <h2 className="text-3xl md:text-5xl font-bold mb-16 text-white">Client Success</h2>
         
