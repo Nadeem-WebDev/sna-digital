@@ -9,7 +9,8 @@ import { TechStackShowcase } from './components/sections/TechStackShowcase';
 import { ProjectsSection } from './components/sections/ProjectsSection';
 import { ReviewsSection } from './components/sections/ReviewsSection';
 import { ContactSection } from './components/sections/ContactSection';
-import { Footer } from './components/sections/Footer'; // <-- Import Footer
+import { Footer } from './components/sections/Footer';
+import { WhatsAppButton } from './components/WhatsAppButton';
 import { CustomCursor } from './components/CustomCursor';
 import { LenisScroll } from './components/LenisScroll';
 
@@ -22,6 +23,7 @@ function App() {
       
       <CustomCursor />
       <FloatingNav />
+      <WhatsAppButton />
       
       <main className="w-full min-h-screen bg-[#050505] text-white flex flex-col items-center overflow-x-hidden">
         <HeroSection />
