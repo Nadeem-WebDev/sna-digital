@@ -22,6 +22,7 @@ export const ContactSection = () => {
       const templateParams = {
         from_name: formData.name,
         from_email: formData.email,
+        subject: "Inquiry",
         message: formData.message,
       };
 
