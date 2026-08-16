@@ -1,5 +1,6 @@
-import './index.css';
 import { useState } from 'react';
+import './index.css';
+import { Preloader } from './components/sections/Preloader';
 import { FloatingNav } from './components/navigation/FloatingNav';
 import { HeroSection } from './components/sections/HeroSection';
 import { AboutSection } from './components/sections/AboutSection';
@@ -8,33 +9,31 @@ import { TechStackShowcase } from './components/sections/TechStackShowcase';
 import { ProjectsSection } from './components/sections/ProjectsSection';
 import { ReviewsSection } from './components/sections/ReviewsSection';
 import { ContactSection } from './components/sections/ContactSection';
+import { Footer } from './components/sections/Footer'; // <-- Import Footer
 import { CustomCursor } from './components/CustomCursor';
 import { LenisScroll } from './components/LenisScroll';
-import { Preloader } from './components/sections/Preloader';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   return (
-    <>
+    <LenisScroll>
       {isLoading && <Preloader onComplete={() => setIsLoading(false)} />}
-      <LenisScroll>
-        {/* Interactive Cursor & Navigation */}
-        <CustomCursor />
-        <FloatingNav />
-        
-        {/* Main Layout */}
-        <main className="w-full min-h-screen bg-bg text-white flex flex-col items-center overflow-x-hidden">
-          <HeroSection />
-          <AboutSection />
-          <ServicesSection />
-          <TechStackShowcase />
-          <ProjectsSection />
-          <ReviewsSection />
-          <ContactSection />
-        </main>
-      </LenisScroll>
-    </>
+      
+      <CustomCursor />
+      <FloatingNav />
+      
+      <main className="w-full min-h-screen bg-[#050505] text-white flex flex-col items-center overflow-x-hidden">
+        <HeroSection />
+        <AboutSection />
+        <ServicesSection />
+        <TechStackShowcase />
+        <ProjectsSection />
+        <ReviewsSection />
+        <ContactSection />
+        <Footer />
+      </main>
+    </LenisScroll>
   );
 }
 
