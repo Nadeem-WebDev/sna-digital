@@ -36,7 +36,7 @@ const projects = [
     description: 'A dynamic property listing application featuring advanced search filtering, high-res image galleries, and automated lead capture directly to WhatsApp.',
     tags: ['Web App', 'Lead Gen', 'MongoDB'],
     metric: '+45% Conversions',
-    liveUrl: '#',
+    liveUrl: 'https://sna-real-estate-07.vercel.app/',
     githubUrl: '#',
     image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=800&auto=format&fit=crop'
   }
