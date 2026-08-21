@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Send, Mail, CheckCircle2, Loader2 } from 'lucide-react';
 import { FiGithub, FiLinkedin, FiInstagram } from 'react-icons/fi';
 import emailjs from '@emailjs/browser';
+import ReactGA from 'react-ga4';
 
 export const ContactSection = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -30,6 +31,12 @@ export const ContactSection = () => {
 
       setStatus('success');
       setFormData({ name: '', email: '', message: '' }); // Clear form
+      // Send the custom event to GA4 upon success
+      ReactGA.event({
+        category: "Lead",
+        action: "Form Submitted",
+        label: "Contact Section"
+      });
       setTimeout(() => setStatus('idle'), 3000); // Reset button after 3 seconds
       
     } catch (error) {

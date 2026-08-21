@@ -1,18 +1,10 @@
 import { motion } from 'framer-motion';
-import { ExternalLink, Code } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import { FiGithub } from 'react-icons/fi';
+import ReactGA from 'react-ga4';
 import SplitFlapText from '../reactbits/SplitFlapText';
 
 const projects = [
-  {
-    title: 'Chat Application 2.0',
-    description: 'Built a real-time chat app with instant one-on-one messaging powered by Socket.io. Implemented secure JWT authentication with bcrypt hashing.',
-    tags: ['React.js', 'Node.js', 'Express.js', 'MongoDB', 'Socket.io'],
-    metric: 'Real-Time',
-    liveUrl: 'https://chat-application-2-0.onrender.com/',
-    githubUrl: '#',
-    image: 'https://images.unsplash.com/photo-1611606063065-ee7946f0787a?q=80&w=800&auto=format&fit=crop'
-  },
   {
     title: 'Salon Appointment Booking',
     description: 'Built a full-stack PERN salon booking system with live queue tracking and OTP email verification. Features an admin dashboard with Recharts analytics.',
@@ -39,10 +31,27 @@ const projects = [
     liveUrl: 'https://sna-real-estate-07.vercel.app/',
     githubUrl: '#',
     image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=800&auto=format&fit=crop'
+  },
+  {
+    title: 'Chat Application 2.0',
+    description: 'Built a real-time chat app with instant one-on-one messaging powered by Socket.io. Implemented secure JWT authentication with bcrypt hashing.',
+    tags: ['React.js', 'Node.js', 'Express.js', 'MongoDB', 'Socket.io'],
+    metric: 'Real-Time',
+    liveUrl: 'https://chat-application-2-0.onrender.com/',
+    githubUrl: '#',
+    image: 'https://images.unsplash.com/photo-1611606063065-ee7946f0787a?q=80&w=800&auto=format&fit=crop'
   }
 ];
 
 export const ProjectsSection = () => {
+  // Function to handle the click event for the live demo button and send GA4 event
+  const handleDemoClick = (projectName) => {
+    ReactGA.event({
+      category: "Projects",
+      action: "Clicked Live Demo",
+      label: projectName 
+    });
+  };
   return (
     <section id="projects" className="w-full py-32 bg-[#050505] border-t border-white/5 flex justify-center z-20">
       <div className="w-full max-w-7xl mx-auto px-6">
@@ -100,6 +109,7 @@ export const ProjectsSection = () => {
                       href={project.liveUrl}
                       target={hasLiveUrl ? "_blank" : "_self"}
                       rel={hasLiveUrl ? "noreferrer" : undefined}
+                      onClick={() => handleDemoClick(project.title)}
                       className="flex items-center gap-2 text-sm md:text-base font-bold text-white hover:text-orange-500 transition-colors"
                     >
                       <ExternalLink className="w-5 h-5" /> Live Demo
@@ -110,7 +120,7 @@ export const ProjectsSection = () => {
                       rel={hasGithubUrl ? "noreferrer" : undefined}
                       className="flex items-center gap-2 text-sm md:text-base font-bold text-gray-500 hover:text-white transition-colors"
                     >
-                      <Code className="w-5 h-5" /> Source Code
+                      <FiGithub className="w-5 h-5" /> Source Code
                     </a>
                   </div>
                 </div>

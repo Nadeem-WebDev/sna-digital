@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import ReactGA from 'react-ga4';
 import './index.css';
 import { Preloader } from './components/sections/Preloader';
 import { FloatingNav } from './components/navigation/FloatingNav';
@@ -16,7 +17,16 @@ import { LenisScroll } from './components/LenisScroll';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
-
+  useEffect(() => {
+    const trackingId = import.meta.env.VITE_GA_MEASUREMENT_ID;
+    if (trackingId) {
+      // Initialize GA4
+      ReactGA.initialize(trackingId); 
+      // Track the initial pageview
+      ReactGA.send({ hitType: "pageview", page: window.location.pathname });
+    }
+  }, []);
+  
   return (
     <LenisScroll>
       {isLoading && <Preloader onComplete={() => setIsLoading(false)} />}

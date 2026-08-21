@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { FaWhatsapp } from 'react-icons/fa';
+import ReactGA from 'react-ga4';
 
 export const WhatsAppButton = () => {
   // Your phone number (must include country code without the '+')
@@ -11,11 +12,21 @@ export const WhatsAppButton = () => {
   // WhatsApp Click-to-Chat URL
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
+  // Function to handle the click event and send GA4 event
+  const handleWhatsAppClick = () => {
+    ReactGA.event({
+      category: "Contact",
+      action: "Clicked WhatsApp Button",
+      label: "Floating Action Button"
+    });
+  };
+
   return (
     <motion.a
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={handleWhatsAppClick}
       className="fixed bottom-25 right-8 md:bottom-10 md:right-10 z-[100] group flex items-center justify-center"
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
