@@ -1,23 +1,23 @@
 import { motion } from 'framer-motion';
 import { 
-  SiReact, SiNextdotjs, SiNodedotjs, SiMongodb, 
-  SiTypescript, SiTailwindcss, SiFramer, 
+  SiReact, SiExpress, SiNodedotjs, SiMongodb, 
+  SiLinux, SiTailwindcss, SiFramer, 
   SiPython, SiPhp, SiMysql, SiPostgresql 
 } from 'react-icons/si';
 import { GitBranch } from 'lucide-react';
 
 const tech = [
-  { name: 'React', icon: SiReact },
-  { name: 'Next.js', icon: SiNextdotjs },
   { name: 'Node.js', icon: SiNodedotjs },
   { name: 'Python', icon: SiPython },
   { name: 'PHP', icon: SiPhp },
+  { name: 'React', icon: SiReact },
+  { name: 'Tailwind CSS', icon: SiTailwindcss },
+  { name: 'Framer Motion', icon: SiFramer },
+  { name: 'Express', icon: SiExpress },
   { name: 'MongoDB', icon: SiMongodb },
   { name: 'MySQL', icon: SiMysql },
   { name: 'PostgreSQL', icon: SiPostgresql },
-  { name: 'TypeScript', icon: SiTypescript },
-  { name: 'Tailwind CSS', icon: SiTailwindcss },
-  { name: 'Framer Motion', icon: SiFramer },
+  { name: 'Linux', icon: SiLinux },
   { name: 'Git/GitHub', icon: GitBranch },
 ];
 
