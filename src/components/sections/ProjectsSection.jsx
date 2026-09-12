@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Code, ChevronLeft, ChevronRight, Loader2, AlertCircle } from 'lucide-react';
+import ReactGA from 'react-ga4';
 import SplitFlapText from '../reactbits/SplitFlapText';
 
 export const ProjectsSection = () => {
@@ -9,7 +10,6 @@ export const ProjectsSection = () => {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   
-  // Set to 6 so it perfectly fills two rows on a 3-column grid
   const itemsPerPage = 6; 
 
   useEffect(() => {
@@ -42,16 +42,18 @@ export const ProjectsSection = () => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentProjects = projects.slice(startIndex, startIndex + itemsPerPage);
 
-  // Smooth scroll handler for pagination
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
-    // setTimeout ensures the DOM updates the grid height before scrolling
     setTimeout(() => {
       const section = document.getElementById('projects');
       if (section) {
         section.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }, 50);
+  };
+
+  const handleDemoClick = (projectName) => {
+    ReactGA.event({ category: "Projects", action: "Clicked Live Demo", label: projectName });
   };
 
   return (
@@ -80,7 +82,6 @@ export const ProjectsSection = () => {
            </div>
         ) : (
           <>
-            {/* Updated Grid: 3 columns on large screens, adjusted gap */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {currentProjects.map((project, i) => {
                 const hasLiveUrl = project.liveUrl && project.liveUrl !== '#';
@@ -92,37 +93,68 @@ export const ProjectsSection = () => {
                     initial={{ opacity: 0, y: 20 }} 
                     whileInView={{ opacity: 1, y: 0 }} 
                     viewport={{ once: true, amount: 0.1 }} 
-                    className="group bg-white/[0.02] border border-white/10 rounded-[1.5rem] flex flex-col hover:border-orange-500/40 transition-colors shadow-2xl overflow-hidden"
+                    // Outer container holds the animated border
+                    className="group relative w-full h-[460px] rounded-[1.5rem] p-[2px] shadow-2xl"
                   >
-                    {/* Updated Image Area: Reduced height from h-64 to h-48/h-52 */}
-                    <div className="relative w-full h-48 sm:h-52 overflow-hidden border-b border-white/10">
-                      <div className="absolute top-4 left-4 z-20 h-8 inline-flex items-center px-3 bg-black/60 backdrop-blur-md border border-white/10 text-orange-400 text-xs font-bold rounded-lg uppercase tracking-wider overflow-hidden">
-                        <SplitFlapText text={project.metric} />
-                      </div>
-                      <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent opacity-80" />
-                    </div>
+                    {/* Animated Gradient Background */}
+                    <motion.div 
+                      className="absolute inset-0 bg-gradient-to-r from-orange-500 via-rose-500 to-amber-500 rounded-[1.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                      animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+                      transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                      style={{ backgroundSize: "200% 200%" }}
+                    />
                     
-                    {/* Updated Content Area: Tighter padding and text sizes */}
-                    <div className="p-6 md:p-8 flex flex-col flex-grow">
-                      <h3 className="text-xl md:text-2xl font-bold text-white mb-3">{project.title}</h3>
-                      <p className="text-gray-400 mb-6 flex-grow leading-relaxed text-base">{project.description}</p>
+                    {/* Inner Card Content */}
+                    <div className="relative flex flex-col h-full bg-[#0a0a0a] rounded-[calc(1.5rem-2px)] overflow-hidden">
                       
-                      <div className="flex flex-wrap gap-2 mb-6">
-                        {project.tags?.map((t, idx) => (
-                          <span key={idx} className="text-xs px-2.5 py-1 bg-black border border-white/10 rounded-lg text-gray-300 font-medium">
-                            {t}
-                          </span>
-                        ))}
+                      {/* Image Area - Shorter height */}
+                      <div className="relative w-full h-44 overflow-hidden border-b border-white/10 flex-shrink-0">
+                        <div className="absolute top-4 left-4 z-20 h-7 inline-flex items-center px-3 bg-black/60 backdrop-blur-md border border-white/10 text-orange-400 text-[10px] font-bold rounded-lg uppercase tracking-wider overflow-hidden">
+                          <SplitFlapText text={project.metric} />
+                        </div>
+                        <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent opacity-80" />
                       </div>
                       
-                      <div className="flex items-center justify-between pt-6 border-t border-white/10 mt-auto">
-                        <a href={project.liveUrl} target={hasLiveUrl ? "_blank" : "_self"} rel={hasLiveUrl ? "noreferrer" : undefined} className="flex items-center gap-2 text-sm font-bold text-white hover:text-orange-500 transition-colors">
-                          <ExternalLink className="w-4 h-4" /> Live Demo
-                        </a>
-                        <a href={project.githubUrl} target={hasGithubUrl ? "_blank" : "_self"} rel={hasGithubUrl ? "noreferrer" : undefined} className="flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-white transition-colors">
-                          <Code className="w-4 h-4" /> Source
-                        </a>
+                      {/* Text & Content Area - text-left prevents justify gaps */}
+                      <div className="p-6 flex flex-col flex-grow text-left">
+                        {/* line-clamp-1 prevents title wrapping */}
+                        <h3 className="text-xl font-bold text-white mb-2 line-clamp-1" title={project.title}>{project.title}</h3>
+                        
+                        {/* line-clamp-3 limits description height strictly */}
+                        <p className="text-gray-400 mb-4 text-sm leading-relaxed line-clamp-3" title={project.description}>
+                          {project.description}
+                        </p>
+                        
+                        {/* Tags */}
+                        <div className="flex flex-wrap gap-2 mb-6 h-[44px] overflow-hidden">
+                          {project.tags?.slice(0, 4).map((t, idx) => (
+                            <span key={idx} className="text-xs px-2.5 py-1 bg-[#111111] border border-white/10 rounded-lg text-gray-300 font-medium whitespace-nowrap">
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                        
+                        {/* Buttons Area - Flex-1 ensures they share space equally */}
+                        <div className="flex items-center gap-3 mt-auto">
+                          <a 
+                            href={project.liveUrl} 
+                            target={hasLiveUrl ? "_blank" : "_self"} 
+                            rel={hasLiveUrl ? "noreferrer" : undefined} 
+                            onClick={() => handleDemoClick(project.title)}
+                            className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-white/5 hover:bg-orange-500 border border-white/5 hover:border-orange-500 rounded-xl text-sm font-semibold text-white transition-all"
+                          >
+                            <ExternalLink className="w-4 h-4" /> Live
+                          </a>
+                          <a 
+                            href={project.githubUrl} 
+                            target={hasGithubUrl ? "_blank" : "_self"} 
+                            rel={hasGithubUrl ? "noreferrer" : undefined} 
+                            className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 rounded-xl text-sm font-semibold text-gray-300 hover:text-white transition-all"
+                          >
+                            <Code className="w-4 h-4" /> Code
+                          </a>
+                        </div>
                       </div>
                     </div>
                   </motion.div>
@@ -136,7 +168,7 @@ export const ProjectsSection = () => {
                 <button 
                   onClick={() => handlePageChange(Math.max(currentPage - 1, 1))} 
                   disabled={currentPage === 1}
-                  className="p-3 bg-neutral-900 border border-neutral-800 rounded-full text-white hover:bg-orange-500 hover:border-orange-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="p-3 bg-neutral-900 border border-neutral-800 rounded-full text-white hover:bg-orange-500 hover:border-orange-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-xl"
                 >
                   <ChevronLeft className="w-6 h-6" />
                 </button>
@@ -148,7 +180,7 @@ export const ProjectsSection = () => {
                 <button 
                   onClick={() => handlePageChange(Math.min(currentPage + 1, totalPages))} 
                   disabled={currentPage === totalPages}
-                  className="p-3 bg-neutral-900 border border-neutral-800 rounded-full text-white hover:bg-orange-500 hover:border-orange-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="p-3 bg-neutral-900 border border-neutral-800 rounded-full text-white hover:bg-orange-500 hover:border-orange-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-xl"
                 >
                   <ChevronRight className="w-6 h-6" />
                 </button>
