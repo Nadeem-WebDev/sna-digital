@@ -44,7 +44,7 @@ export const AboutSection = () => {
             </p>
             
             <p className="text-gray-400 text-lg leading-relaxed mb-10 relative z-10">
-              I am an Information Technology engineering graduate with hands-on experience in full-stack web development. I thrive on architecting secure backend systems, crafting dynamic React frontends, and optimizing databases. From high-traffic production platforms to robust local business solutions, I build technology that drives real business growth.
+              I am Nadeem, an Information Technology engineering graduate with hands-on experience in full-stack web development. I thrive on architecting secure backend systems, crafting dynamic React frontends, and optimizing databases. From high-traffic production platforms to robust local business solutions, I build technology that drives real business growth.
             </p>
             
             <div className="flex flex-wrap gap-4 relative z-10">
