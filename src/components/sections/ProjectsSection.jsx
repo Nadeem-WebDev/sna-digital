@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Code, ChevronLeft, ChevronRight, Loader2, AlertCircle } from 'lucide-react';
+import { ExternalLink, ChevronLeft, ChevronRight, Loader2, AlertCircle } from 'lucide-react';
+import { FiGithub } from 'react-icons/fi';
 import ReactGA from 'react-ga4';
 import SplitFlapText from '../reactbits/SplitFlapText';
 
@@ -43,12 +44,13 @@ export const ProjectsSection = () => {
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
+    // Increased timeout slightly to ensure DOM paints before scrolling
     setTimeout(() => {
       const section = document.getElementById('projects');
       if (section) {
         section.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-    }, 50);
+    }, 100);
   };
 
   const handleDemoClick = (projectName) => {
@@ -92,22 +94,24 @@ export const ProjectsSection = () => {
                     initial={{ opacity: 0, y: 20 }} 
                     whileInView={{ opacity: 1, y: 0 }} 
                     viewport={{ once: true, amount: 0.1 }} 
-                    // Outer container holds the animated border
-                    className="group relative w-full h-[460px] rounded-[1.5rem] p-[2px] shadow-2xl"
+                    // Wrapper defining the 2px padding for the border
+                    className="group relative w-full h-[450px] rounded-[1.5rem] p-[2px] overflow-hidden bg-[#111] hover:shadow-2xl hover:shadow-orange-500/10 transition-shadow"
                   >
-                    {/* Animated Gradient Background */}
+                    {/* The Rotating Magic Gradient Border */}
                     <motion.div 
-                      className="absolute inset-0 bg-gradient-to-r from-orange-500 via-rose-500 to-amber-500 rounded-[1.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                      animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
-                      transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                      style={{ backgroundSize: "200% 200%" }}
+                      className="absolute inset-[-100%] opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0"
+                      style={{
+                        background: 'conic-gradient(from 0deg, transparent 70%, #f97316 85%, #f43f5e 100%)',
+                      }}
+                      animate={{ rotate: 360 }}
+                      transition={{ repeat: Infinity, duration: 2.5, ease: "linear" }}
                     />
                     
                     {/* Inner Card Content */}
-                    <div className="relative flex flex-col h-full bg-[#0a0a0a] rounded-[calc(1.5rem-2px)] overflow-hidden">
+                    <div className="relative flex flex-col h-full w-full bg-[#0a0a0a] rounded-[calc(1.5rem-2px)] overflow-hidden z-10 text-left">
                       
-                      {/* Image Area - Shorter height */}
-                      <div className="relative w-full h-44 overflow-hidden border-b border-white/10 flex-shrink-0">
+                      {/* Image Area */}
+                      <div className="relative w-full h-44 overflow-hidden border-b border-white/10 flex-shrink-0 bg-black">
                         <div className="absolute top-4 left-4 z-20 h-7 inline-flex items-center px-3 bg-black/60 backdrop-blur-md border border-white/10 text-orange-400 text-[10px] font-bold rounded-lg uppercase tracking-wider overflow-hidden">
                           <SplitFlapText text={project.metric} />
                         </div>
@@ -115,33 +119,34 @@ export const ProjectsSection = () => {
                         <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent opacity-80" />
                       </div>
                       
-                      {/* Text & Content Area - text-left prevents justify gaps */}
-                      <div className="p-6 flex flex-col flex-grow text-left">
-                        {/* line-clamp-1 prevents title wrapping */}
+                      {/* Text Area */}
+                      <div className="p-6 flex flex-col flex-grow">
                         <h3 className="text-xl font-bold text-white mb-2 line-clamp-1" title={project.title}>{project.title}</h3>
                         
-                        {/* line-clamp-3 limits description height strictly */}
-                        <p className="text-gray-400 mb-4 text-sm leading-relaxed line-clamp-3" title={project.description}>
+                        <p className="text-gray-400 mb-5 text-sm leading-relaxed line-clamp-3" title={project.description}>
                           {project.description}
                         </p>
                         
-                        {/* Tags */}
-                        <div className="flex flex-wrap gap-2 mb-6 h-[44px] overflow-hidden">
-                          {project.tags?.slice(0, 4).map((t, idx) => (
+                        {/* Tags - Hidden overflow to keep layout locked */}
+                        <div className="flex flex-wrap gap-2 mb-6 h-[28px] overflow-hidden">
+                          {project.tags?.slice(0, 3).map((t, idx) => (
                             <span key={idx} className="text-xs px-2.5 py-1 bg-[#111111] border border-white/10 rounded-lg text-gray-300 font-medium whitespace-nowrap">
                               {t}
                             </span>
                           ))}
+                          {project.tags?.length > 3 && (
+                             <span className="text-xs px-2.5 py-1 text-gray-500 font-medium">+{project.tags.length - 3}</span>
+                          )}
                         </div>
                         
-                        {/* Buttons Area - Flex-1 ensures they share space equally */}
+                        {/* Button Row - Equal sizes, pushed to the bottom */}
                         <div className="flex items-center gap-3 mt-auto">
                           <a 
                             href={project.liveUrl} 
                             target={hasLiveUrl ? "_blank" : "_self"} 
                             rel={hasLiveUrl ? "noreferrer" : undefined} 
                             onClick={() => handleDemoClick(project.title)}
-                            className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-white/5 hover:bg-orange-500 border border-white/5 hover:border-orange-500 rounded-xl text-sm font-semibold text-white transition-all"
+                            className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-gradient-to-r from-orange-500 to-rose-500 hover:opacity-90 rounded-xl text-sm font-bold text-white transition-opacity shadow-lg shadow-orange-500/20"
                           >
                             <ExternalLink className="w-4 h-4" /> Live
                           </a>
@@ -149,12 +154,13 @@ export const ProjectsSection = () => {
                             href={project.githubUrl} 
                             target={hasGithubUrl ? "_blank" : "_self"} 
                             rel={hasGithubUrl ? "noreferrer" : undefined} 
-                            className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 rounded-xl text-sm font-semibold text-gray-300 hover:text-white transition-all"
+                            className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[#111111] hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-xl text-sm font-bold text-gray-300 hover:text-white transition-all shadow-lg"
                           >
-                            <Code className="w-4 h-4" /> Code
+                            <FiGithub className="w-4 h-4" /> Source
                           </a>
                         </div>
                       </div>
+
                     </div>
                   </motion.div>
                 );
