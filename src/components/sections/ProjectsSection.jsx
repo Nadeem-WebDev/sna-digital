@@ -28,7 +28,6 @@ export const ProjectsSection = () => {
           throw new Error("Invalid data format received");
         }
       } catch (err) {
-        console.error("Project fetch error:", err);
         setError("Currently unable to load projects. Please check back later.");
       } finally {
         setIsLoading(false);
@@ -85,7 +84,7 @@ export const ProjectsSection = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {currentProjects.map((project, i) => {
                 const hasLiveUrl = project.liveUrl && project.liveUrl !== '#';
-                const hasGithubUrl = project.githubUrl && project.githubUrl !== '#';
+                const hasGithubUrl = project.githubUrl && project.githubUrl !== '#projects';
                 
                 return (
                   <motion.div 
