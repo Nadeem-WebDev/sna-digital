@@ -14,33 +14,30 @@ export const ContactSection = () => {
     setStatus('submitting');
 
     try {
-      // Step 1: Replace these with your actual EmailJS credentials
-      const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-      const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-      const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
-      // Step 2: Make sure these keys match the {{variables}} in your EmailJS template!
-      const templateParams = {
-        from_name: formData.name,
-        from_email: formData.email,
-        subject: "Inquiry",
-        message: formData.message,
-      };
-
-      await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
+      if (!response.ok) {
+        throw new Error('Failed to send message');
+      }
 
       setStatus('success');
-      setFormData({ name: '', email: '', message: '' }); // Clear form
-      // Send the custom event to GA4 upon success
+      setFormData({ name: '', email: '', message: '' }); 
+      
       ReactGA.event({
         category: "Lead",
         action: "Form Submitted",
         label: "Contact Section"
       });
-      setTimeout(() => setStatus('idle'), 3000); // Reset button after 3 seconds
-      
+
+      setTimeout(() => setStatus('idle'), 3000); 
     } catch (error) {
-      console.error("EmailJS Error:", error);
+      console.error("Form Submission Error:", error);
       setStatus('error');
       setTimeout(() => setStatus('idle'), 3000);
     }
