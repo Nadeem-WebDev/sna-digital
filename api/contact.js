@@ -4,27 +4,33 @@ export default async function handler(req, res) {
   }
 
   const { name, email, message } = req.body;
-  const { EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, EMAILJS_PUBLIC_KEY } = process.env;
 
-  if (!name || !email || !message) {
-    return res.status(400).json({ error: 'Missing required fields' });
+  // Pulling all keys from Vercel environment
+  const serviceId = process.env.EMAILJS_SERVICE_ID;
+  const templateId = process.env.EMAILJS_TEMPLATE_ID;
+  const publicKey = process.env.EMAILJS_PUBLIC_KEY;
+  const privateKey = process.env.EMAILJS_PRIVATE_KEY;
+
+  if (!serviceId || !templateId || !publicKey || !privateKey) {
+    console.error("Missing EmailJS credentials in Vercel environment.");
+    return res.status(500).json({ error: 'Server configuration error' });
   }
 
   try {
-    // Calling the EmailJS REST API from the backend
     const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        service_id: EMAILJS_SERVICE_ID,
-        template_id: EMAILJS_TEMPLATE_ID,
-        user_id: EMAILJS_PUBLIC_KEY,
+        service_id: serviceId,
+        template_id: templateId,
+        user_id: publicKey,
+        accessToken: privateKey, // Secures the backend request
         template_params: {
           from_name: name,
           from_email: email,
-          subject: "Inquiry",
+          subject: "Inquiry from Portfolio",
           message: message,
         }
       }),
@@ -32,12 +38,13 @@ export default async function handler(req, res) {
 
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(errorText);
+      console.error("EmailJS API rejected the request:", errorText); 
+      return res.status(response.status).json({ error: errorText });
     }
 
     return res.status(200).json({ success: true });
   } catch (error) {
-    console.error("Email sending failed:", error);
-    return res.status(500).json({ error: 'Failed to send message' });
+    console.error("Fetch to EmailJS failed:", error);
+    return res.status(500).json({ error: 'Internal Server Error' });
   }
 }
