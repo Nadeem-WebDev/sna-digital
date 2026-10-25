@@ -61,6 +61,7 @@ export const ReviewsSection = () => {
           {/* Carousel Navigation Buttons */}
           <button 
             onClick={handlePrev}
+            aria-label="Previous review"
             className="absolute left-0 top-1/2 -translate-y-1/2 -ml-2 md:-ml-8 z-10 p-3 bg-neutral-900 border border-neutral-800 rounded-full text-white hover:bg-orange-500 hover:border-orange-500 transition-colors shadow-xl"
           >
             <ChevronLeft className="w-5 h-5" />
@@ -68,6 +69,7 @@ export const ReviewsSection = () => {
           
           <button 
             onClick={handleNext}
+            aria-label="Next review"
             className="absolute right-0 top-1/2 -translate-y-1/2 -mr-2 md:-mr-8 z-10 p-3 bg-neutral-900 border border-neutral-800 rounded-full text-white hover:bg-orange-500 hover:border-orange-500 transition-colors shadow-xl"
           >
             <ChevronRight className="w-5 h-5" />
@@ -98,13 +100,17 @@ export const ReviewsSection = () => {
           </div>
           
           {/* Carousel Indicators */}
-          <div className="flex justify-center gap-3 mt-8">
+          <div className="flex justify-center gap-1 mt-8">
             {reviews.map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => setCurrentIndex(idx)}
-                className={`h-2 rounded-full transition-all duration-300 ${currentIndex === idx ? 'w-8 bg-orange-500' : 'w-2 bg-neutral-700 hover:bg-neutral-500'}`}
-              />
+                aria-label={`Show review ${idx + 1}`}
+                aria-current={currentIndex === idx}
+                className="group/dot flex items-center justify-center min-w-6 h-6 px-1"
+              >
+                <span className={`block h-2 rounded-full transition-all duration-300 ${currentIndex === idx ? 'w-8 bg-orange-500' : 'w-2 bg-neutral-700 group-hover/dot:bg-neutral-500'}`} />
+              </button>
             ))}
           </div>
         </div>

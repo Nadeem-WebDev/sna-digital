@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import ReactGA from 'react-ga4';
 import './index.css';
 import { Preloader } from './components/sections/Preloader';
@@ -16,20 +16,52 @@ import { CustomCursor } from './components/CustomCursor';
 import { LenisScroll } from './components/LenisScroll';
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
+  // Only show the preloader on the first visit of the session
+  const [isLoading, setIsLoading] = useState(() => {
+    try {
+      return !sessionStorage.getItem('preloaderSeen');
+    } catch {
+      return true;
+    }
+  });
+
+  const handlePreloaderComplete = useCallback(() => {
+    try {
+      sessionStorage.setItem('preloaderSeen', '1');
+    } catch {
+      // Storage unavailable (private mode etc.) – preloader will just show again
+    }
+    setIsLoading(false);
+  }, []);
+
   useEffect(() => {
     const trackingId = import.meta.env.VITE_GA_MEASUREMENT_ID;
-    if (trackingId) {
-      // Initialize GA4
-      ReactGA.initialize(trackingId); 
-      // Track the initial pageview
+    if (!trackingId) return;
+
+    // Defer GA until the page has loaded and the browser is idle
+    const initGA = () => {
+      ReactGA.initialize(trackingId);
       ReactGA.send({ hitType: "pageview", page: window.location.pathname });
+    };
+    const scheduleGA = () => {
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(initGA, { timeout: 4000 });
+      } else {
+        setTimeout(initGA, 2000);
+      }
+    };
+
+    if (document.readyState === 'complete') {
+      scheduleGA();
+    } else {
+      window.addEventListener('load', scheduleGA, { once: true });
+      return () => window.removeEventListener('load', scheduleGA);
     }
   }, []);
   
   return (
     <LenisScroll>
-      {isLoading && <Preloader onComplete={() => setIsLoading(false)} />}
+      {isLoading && <Preloader onComplete={handlePreloaderComplete} />}
       
       <CustomCursor />
       <FloatingNav />

@@ -19,7 +19,7 @@ export const Preloader = ({ onComplete }) => {
     // 1. Count up to 100%
     timeline.to(counter.current, {
       value: 100,
-      duration: 2.2,
+      duration: 0.8,
       snap: { value: 1 },
       ease: 'power2.inOut',
       onUpdate: () => {
@@ -40,7 +40,7 @@ export const Preloader = ({ onComplete }) => {
     // 3. Open the curtains (Split screen in half)
     timeline.to([leftCurtainRef.current, rightCurtainRef.current], {
       width: 0,
-      duration: 0.8,
+      duration: 0.6,
       ease: 'power4.inOut',
       onComplete: () => {
         document.body.style.overflow = 'auto';
@@ -93,7 +93,7 @@ export const Preloader = ({ onComplete }) => {
             className="h-full bg-gradient-to-r from-orange-500 to-rose-500"
             initial={{ width: 0 }}
             animate={{ width: '100%' }}
-            transition={{ duration: 2.2, ease: 'easeInOut' }}
+            transition={{ duration: 0.8, ease: 'easeInOut' }}
           />
         </div>
       </div>

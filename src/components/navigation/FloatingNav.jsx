@@ -27,6 +27,7 @@ export const FloatingNav = () => {
           <a
             key={idx}
             href={item.href}
+            aria-label={item.name}
             onMouseEnter={() => setHoveredIndex(idx)}
             onMouseLeave={() => setHoveredIndex(null)}
             className="relative p-3 rounded-full hover:bg-white/10 transition-colors group flex items-center justify-center"

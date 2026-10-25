@@ -61,7 +61,7 @@ const ProjectCard = ({ project, handleDemoClick }) => {
             <div className="absolute top-4 left-4 z-20 h-7 inline-flex items-center px-3 bg-black/60 backdrop-blur-md border border-white/10 text-orange-400 text-[10px] font-bold rounded-lg uppercase tracking-wider overflow-hidden">
               <SplitFlapText text={project.metric} />
             </div>
-            <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100 pointer-events-none" />
+            <img src={project.image} alt={project.title} width={800} height={384} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100 pointer-events-none" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent opacity-80 pointer-events-none" />
           </div>
 
