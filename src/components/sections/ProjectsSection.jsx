@@ -105,9 +105,11 @@ const ProjectCard = ({ project, handleDemoClick }) => {
 };
 
 // --- Main Section Component ---
-export const ProjectsSection = () => {
-  const [projects, setProjects] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+export const ProjectsSection = ({ initialProjects = [] }) => {
+  // Seeded with build-time data so the prerendered HTML includes the projects;
+  // the fetch below still refreshes them for visitors
+  const [projects, setProjects] = useState(initialProjects);
+  const [isLoading, setIsLoading] = useState(initialProjects.length === 0);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   
@@ -130,14 +132,17 @@ export const ProjectsSection = () => {
         }
       } catch (err) {
         console.error("Project fetch error:", err);
-        setError("Currently unable to load projects. Please check back later.");
+        // Keep showing the build-time projects if the live refresh fails
+        if (initialProjects.length === 0) {
+          setError("Currently unable to load projects. Please check back later.");
+        }
       } finally {
         setIsLoading(false);
       }
     };
     
     fetchProjects();
-  }, []);
+  }, [initialProjects.length]);
 
   const totalPages = Math.ceil(projects.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;

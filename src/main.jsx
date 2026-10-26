@@ -1,10 +1,18 @@
 import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { createRoot, hydrateRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 
-createRoot(document.getElementById('root')).render(
+const container = document.getElementById('root')
+const app = (
   <StrictMode>
-    <App />
-  </StrictMode>,
+    <App initialProjects={window.__INITIAL_PROJECTS__ || []} />
+  </StrictMode>
 )
+
+// Production HTML is prerendered (scripts/prerender.js), so attach to it; dev starts empty
+if (container.hasChildNodes()) {
+  hydrateRoot(container, app)
+} else {
+  createRoot(container).render(app)
+}

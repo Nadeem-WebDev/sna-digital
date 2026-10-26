@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useLayoutEffect, useCallback } from 'react';
 import ReactGA from 'react-ga4';
 import './index.css';
 import { Preloader } from './components/sections/Preloader';
@@ -15,15 +15,19 @@ import { WhatsAppButton } from './components/WhatsAppButton';
 import { CustomCursor } from './components/CustomCursor';
 import { LenisScroll } from './components/LenisScroll';
 
-function App() {
-  // Only show the preloader on the first visit of the session
-  const [isLoading, setIsLoading] = useState(() => {
+function App({ initialProjects = [] }) {
+  // Starts true on both server and client so the prerendered HTML hydrates cleanly
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Only show the preloader on the first visit of the session.
+  // Layout effect runs before paint, so returning visitors don't see it flash.
+  useLayoutEffect(() => {
     try {
-      return !sessionStorage.getItem('preloaderSeen');
+      if (sessionStorage.getItem('preloaderSeen')) setIsLoading(false);
     } catch {
-      return true;
+      // Storage unavailable – keep showing the preloader
     }
-  });
+  }, []);
 
   const handlePreloaderComplete = useCallback(() => {
     try {
@@ -72,7 +76,7 @@ function App() {
         <AboutSection />
         <ServicesSection />
         <TechStackShowcase />
-        <ProjectsSection />
+        <ProjectsSection initialProjects={initialProjects} />
         <ReviewsSection />
         <ContactSection />
         <Footer />
