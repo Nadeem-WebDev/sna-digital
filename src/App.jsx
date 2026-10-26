@@ -21,6 +21,8 @@ const ProjectsSection = lazyWhenVisible('projects', () =>
   import('./components/sections/ProjectsSection').then((m) => ({ default: m.ProjectsSection })));
 const ReviewsSection = lazyWhenVisible('reviews', () =>
   import('./components/sections/ReviewsSection').then((m) => ({ default: m.ReviewsSection })));
+const FaqSection = lazyWhenVisible('faq', () =>
+  import('./components/sections/FaqSection').then((m) => ({ default: m.FaqSection })));
 const ContactSection = lazyWhenVisible('contact', () =>
   import('./components/sections/ContactSection').then((m) => ({ default: m.ContactSection })));
 
@@ -34,6 +36,7 @@ const BelowFold = memo(function BelowFold({ initialProjects }) {
       <Suspense fallback={null}><TechStackShowcase /></Suspense>
       <Suspense fallback={null}><ProjectsSection initialProjects={initialProjects} /></Suspense>
       <Suspense fallback={null}><ReviewsSection /></Suspense>
+      <Suspense fallback={null}><FaqSection /></Suspense>
       <Suspense fallback={null}><ContactSection /></Suspense>
       <Footer />
     </>

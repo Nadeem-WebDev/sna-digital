@@ -1,7 +1,9 @@
 // Builds /llms.txt: a plain-text summary of the business for AI assistants
 // (ChatGPT, Claude, Perplexity...). Generated at build time so the project
 // list always matches Airtable.
-export function buildLlmsTxt(projects) {
+export function buildLlmsTxt(projects, faqs = []) {
+  const faqLines = faqs.map((f) => `### ${f.question}\n\n${f.answer}`).join('\n\n');
+
   const projectLines = projects.length
     ? projects
         .map((p) => {
@@ -36,6 +38,10 @@ React, Node.js, Express, Python, PHP, Tailwind CSS, Framer Motion, MongoDB, MySQ
 ## Projects
 
 ${projectLines}
+
+## Frequently asked questions
+
+${faqLines}
 
 ## Contact
 

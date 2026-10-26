@@ -6,6 +6,7 @@ import { pathToFileURL } from 'node:url';
 import { loadEnv } from 'vite';
 import { fetchProjects } from '../lib/airtableProjects.js';
 import { buildLlmsTxt } from './llms.js';
+import { faqs } from '../src/data/faqs.js';
 
 const root = process.cwd();
 const htmlPath = path.join(root, 'dist', 'index.html');
@@ -33,12 +34,25 @@ if (!template.includes('<div id="root"></div>')) {
   throw new Error('[prerender] <div id="root"></div> not found in dist/index.html');
 }
 
-const html = template.replace(
-  '<div id="root"></div>',
-  `<div id="root">${appHtml}</div>\n    <script>window.__INITIAL_PROJECTS__ = ${projectsJson};</script>`
-);
+// FAQPage structured data, built from the same data as the on-page FAQ section
+const faqJsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.question,
+    acceptedAnswer: { '@type': 'Answer', text: f.answer },
+  })),
+}).replace(/</g, '\\u003c');
+
+const html = template
+  .replace('</head>', `  <script type="application/ld+json">${faqJsonLd}</script>\n  </head>`)
+  .replace(
+    '<div id="root"></div>',
+    `<div id="root">${appHtml}</div>\n    <script>window.__INITIAL_PROJECTS__ = ${projectsJson};</script>`
+  );
 
 fs.writeFileSync(htmlPath, html);
-fs.writeFileSync(path.join(root, 'dist', 'llms.txt'), buildLlmsTxt(projects));
+fs.writeFileSync(path.join(root, 'dist', 'llms.txt'), buildLlmsTxt(projects, faqs));
 fs.rmSync(path.join(root, 'dist-ssr'), { recursive: true, force: true });
 console.log(`[prerender] Wrote ${htmlPath} (${projects.length} projects, ${Math.round(appHtml.length / 1024)} KB of HTML)`);
