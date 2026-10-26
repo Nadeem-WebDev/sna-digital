@@ -38,8 +38,9 @@ export const Preloader = ({ onComplete }) => {
     }, "-=0.2"); // Starts slightly before the counter finishes
 
     // 3. Open the curtains (Split screen in half)
+    // scaleX instead of width: same look, but transforms don't cause layout shift
     timeline.to([leftCurtainRef.current, rightCurtainRef.current], {
-      width: 0,
+      scaleX: 0,
       duration: 0.6,
       ease: 'power4.inOut',
       onComplete: () => {
@@ -74,7 +75,8 @@ export const Preloader = ({ onComplete }) => {
         <div className="relative">
           {/* Sunset Theme Gradient */}
           <div className="text-7xl md:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-rose-500 to-amber-500">
-            <span ref={percentRef}>0</span>%
+            {/* Fixed-width digits so the counter doesn't shift as it counts */}
+            <span ref={percentRef} className="inline-block w-[3ch] text-right tabular-nums">0</span>%
           </div>
           {/* Neon Glow */}
           <div className="absolute inset-0 blur-3xl bg-gradient-to-r from-orange-500 via-rose-500 to-amber-500 opacity-20 -z-10" />

@@ -22,7 +22,7 @@ if (env.AIRTABLE_PAT && env.AIRTABLE_BASE_ID) {
 }
 
 const { render } = await import(pathToFileURL(path.join(root, 'dist-ssr', 'entry-server.js')).href);
-const appHtml = render({ initialProjects: projects });
+const appHtml = await render({ initialProjects: projects });
 
 // Escape "<" so project text can never close the script tag early
 const projectsJson = JSON.stringify(projects).replace(/</g, '\\u003c');

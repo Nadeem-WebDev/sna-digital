@@ -1,19 +1,44 @@
-import { useState, useEffect, useLayoutEffect, useCallback } from 'react';
+import { useState, useEffect, useLayoutEffect, useCallback, memo, Suspense } from 'react';
 import ReactGA from 'react-ga4';
 import './index.css';
 import { Preloader } from './components/sections/Preloader';
 import { FloatingNav } from './components/navigation/FloatingNav';
 import { HeroSection } from './components/sections/HeroSection';
-import { AboutSection } from './components/sections/AboutSection';
-import { ServicesSection } from './components/sections/ServicesSection';
-import { TechStackShowcase } from './components/sections/TechStackShowcase';
-import { ProjectsSection } from './components/sections/ProjectsSection';
-import { ReviewsSection } from './components/sections/ReviewsSection';
-import { ContactSection } from './components/sections/ContactSection';
 import { Footer } from './components/sections/Footer';
 import { WhatsAppButton } from './components/WhatsAppButton';
 import { CustomCursor } from './components/CustomCursor';
 import { LenisScroll } from './components/LenisScroll';
+import { lazyWhenVisible } from './utils/lazyWhenVisible';
+
+// Below-the-fold sections: their code loads and hydrates as they scroll into view
+const AboutSection = lazyWhenVisible('about', () =>
+  import('./components/sections/AboutSection').then((m) => ({ default: m.AboutSection })));
+const ServicesSection = lazyWhenVisible('services', () =>
+  import('./components/sections/ServicesSection').then((m) => ({ default: m.ServicesSection })));
+const TechStackShowcase = lazyWhenVisible('tech', () =>
+  import('./components/sections/TechStackShowcase').then((m) => ({ default: m.TechStackShowcase })));
+const ProjectsSection = lazyWhenVisible('projects', () =>
+  import('./components/sections/ProjectsSection').then((m) => ({ default: m.ProjectsSection })));
+const ReviewsSection = lazyWhenVisible('reviews', () =>
+  import('./components/sections/ReviewsSection').then((m) => ({ default: m.ReviewsSection })));
+const ContactSection = lazyWhenVisible('contact', () =>
+  import('./components/sections/ContactSection').then((m) => ({ default: m.ContactSection })));
+
+// Memoized so App's own re-renders (e.g. preloader finishing) never touch
+// sections that are still waiting to hydrate
+const BelowFold = memo(function BelowFold({ initialProjects }) {
+  return (
+    <>
+      <Suspense fallback={null}><AboutSection /></Suspense>
+      <Suspense fallback={null}><ServicesSection /></Suspense>
+      <Suspense fallback={null}><TechStackShowcase /></Suspense>
+      <Suspense fallback={null}><ProjectsSection initialProjects={initialProjects} /></Suspense>
+      <Suspense fallback={null}><ReviewsSection /></Suspense>
+      <Suspense fallback={null}><ContactSection /></Suspense>
+      <Footer />
+    </>
+  );
+});
 
 function App({ initialProjects = [] }) {
   // Starts true on both server and client so the prerendered HTML hydrates cleanly
@@ -73,13 +98,7 @@ function App({ initialProjects = [] }) {
       
       <main className="w-full min-h-screen bg-[#050505] text-white flex flex-col items-center overflow-x-hidden">
         <HeroSection />
-        <AboutSection />
-        <ServicesSection />
-        <TechStackShowcase />
-        <ProjectsSection initialProjects={initialProjects} />
-        <ReviewsSection />
-        <ContactSection />
-        <Footer />
+        <BelowFold initialProjects={initialProjects} />
       </main>
     </LenisScroll>
   );
