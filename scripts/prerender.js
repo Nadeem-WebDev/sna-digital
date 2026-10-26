@@ -5,6 +5,7 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { loadEnv } from 'vite';
 import { fetchProjects } from '../lib/airtableProjects.js';
+import { buildLlmsTxt } from './llms.js';
 
 const root = process.cwd();
 const htmlPath = path.join(root, 'dist', 'index.html');
@@ -38,5 +39,6 @@ const html = template.replace(
 );
 
 fs.writeFileSync(htmlPath, html);
+fs.writeFileSync(path.join(root, 'dist', 'llms.txt'), buildLlmsTxt(projects));
 fs.rmSync(path.join(root, 'dist-ssr'), { recursive: true, force: true });
 console.log(`[prerender] Wrote ${htmlPath} (${projects.length} projects, ${Math.round(appHtml.length / 1024)} KB of HTML)`);

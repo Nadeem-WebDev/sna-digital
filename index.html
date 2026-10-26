@@ -40,20 +40,101 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "ProfessionalService",
-      "name": "SNA Digital",
-      "founder": "Nadeem Shaikh",
-      "url": "https://sna-digital.vercel.app/",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Bhagat Singh Nagar, Goregaon West",
-        "addressLocality": "Mumbai",
-        "addressRegion": "Maharashtra",
-        "postalCode": "400104",
-        "addressCountry": "IN"
-      },
-      "areaServed": ["Goregaon", "Andheri", "Mumbai"],
-      "serviceType": ["Web Development", "Frontend Development", "Full Stack Solutions"]
+      "@graph": [
+        {
+          "@type": "ProfessionalService",
+          "@id": "https://sna-digital.vercel.app/#business",
+          "name": "SNA Digital",
+          "description": "Freelance full-stack web development studio in Goregaon West, Mumbai, run by Nadeem Shaikh. Builds custom websites, booking platforms and web apps, and runs Meta ads and local SEO / Google Ads campaigns for local businesses.",
+          "url": "https://sna-digital.vercel.app/",
+          "logo": "https://sna-digital.vercel.app/apple-touch-icon.png",
+          "image": "https://sna-digital.vercel.app/og-image.png",
+          "email": "nadeem786shaikh92@gmail.com",
+          "telephone": "+91-8972469383",
+          "founder": { "@id": "https://sna-digital.vercel.app/#nadeem" },
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Bhagat Singh Nagar, Goregaon West",
+            "addressLocality": "Mumbai",
+            "addressRegion": "Maharashtra",
+            "postalCode": "400104",
+            "addressCountry": "IN"
+          },
+          "areaServed": [
+            { "@type": "Place", "name": "Goregaon, Mumbai" },
+            { "@type": "Place", "name": "Andheri, Mumbai" },
+            { "@type": "City", "name": "Mumbai" },
+            { "@type": "Country", "name": "India" }
+          ],
+          "sameAs": [
+            "https://www.linkedin.com/in/nadeem-shaikh-1035a4345/",
+            "https://github.com/Nadeem-WebDev",
+            "https://www.instagram.com/nadeem_7_shaikh/"
+          ],
+          "knowsAbout": ["Web Development", "React", "Node.js", "Booking Systems", "Local SEO", "Google Ads", "Meta Ads"],
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Services",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Custom Web Development",
+                  "description": "Fast, custom-designed websites and web apps with built-in booking systems and property databases tailored to the business."
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Meta & Social Ads",
+                  "description": "Hyper-local, data-driven Facebook and Instagram ad campaigns that capture high-intent leads and drive footfall."
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Local SEO & Google Ads",
+                  "description": "Local search optimisation and Google Ads so the business appears first when nearby clients search for its services."
+                }
+              }
+            ]
+          }
+        },
+        {
+          "@type": "Person",
+          "@id": "https://sna-digital.vercel.app/#nadeem",
+          "name": "Nadeem Shaikh",
+          "jobTitle": "Full Stack Web Developer",
+          "description": "Information Technology engineering graduate (B.E., 2025) and freelance full-stack web developer based in Goregaon West, Mumbai.",
+          "url": "https://sna-digital.vercel.app/",
+          "email": "nadeem786shaikh92@gmail.com",
+          "telephone": "+91-8972469383",
+          "worksFor": { "@id": "https://sna-digital.vercel.app/#business" },
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Mumbai",
+            "addressRegion": "Maharashtra",
+            "addressCountry": "IN"
+          },
+          "sameAs": [
+            "https://www.linkedin.com/in/nadeem-shaikh-1035a4345/",
+            "https://github.com/Nadeem-WebDev",
+            "https://www.instagram.com/nadeem_7_shaikh/"
+          ],
+          "knowsAbout": ["React", "Node.js", "Express", "Python", "PHP", "MongoDB", "MySQL", "PostgreSQL", "Tailwind CSS", "Full-Stack Web Development"]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://sna-digital.vercel.app/#website",
+          "name": "SNA Digital",
+          "url": "https://sna-digital.vercel.app/",
+          "publisher": { "@id": "https://sna-digital.vercel.app/#business" },
+          "inLanguage": "en-IN"
+        }
+      ]
     }
     </script>
   </head>
