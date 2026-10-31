@@ -1,12 +1,88 @@
 @import "tailwindcss";
 
+/* `light:` variant for the few tweaks the color tokens below can't cover */
+@custom-variant light (&:where(.light, .light *));
+
+/* Theme tokens: dark is the default, <html class="light"> switches them */
+:root {
+  color-scheme: dark;
+  --page: #050505;
+  --card: #0a0a0a;
+  --inset: #111111;
+  --panel: #171717;
+  --fg: #ffffff;
+  --fg-soft: #d4d4d4;
+  --muted: #9ca3af;
+  --subtle: #6b7280;
+  --edge: #262626;
+  --edge-strong: #404040;
+  --contrast: #ffffff;
+  --hex-stroke: rgba(255, 255, 255, 0.04);
+  --shine-dim: rgba(255, 255, 255, 0.2);
+  --shine-bright: rgba(255, 255, 255, 1);
+}
+
+:root.light {
+  color-scheme: light;
+  --page: #fafaf9;
+  --card: #ffffff;
+  --inset: #f5f5f4;
+  --panel: #ffffff;
+  --fg: #0c0a09;
+  --fg-soft: #44403c;
+  --muted: #57534e;
+  --subtle: #78716c;
+  --edge: #e7e5e4;
+  --edge-strong: #d6d3d1;
+  --contrast: #000000;
+  --hex-stroke: rgba(0, 0, 0, 0.06);
+  --shine-dim: rgba(12, 10, 9, 0.35);
+  --shine-bright: rgba(249, 115, 22, 1);
+}
+
+/* Exposes the tokens as utilities: bg-page, text-fg, border-contrast/10, ... */
+@theme inline {
+  --color-page: var(--page);
+  --color-card: var(--card);
+  --color-inset: var(--inset);
+  --color-panel: var(--panel);
+  --color-fg: var(--fg);
+  --color-fg-soft: var(--fg-soft);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-edge: var(--edge);
+  --color-edge-strong: var(--edge-strong);
+  --color-contrast: var(--contrast);
+}
+
+/* Theme switch reveal (see switchTheme in hooks/useTheme.js): drop the default
+   cross-fade so the new theme is revealed purely by the growing circle */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+.theme-switching *,
+.theme-switching *::before,
+.theme-switching *::after {
+  transition: none !important;
+}
+
 body {
-  background-color: #050505;
-  color: #ffffff;
+  background-color: var(--page);
+  color: var(--fg);
   font-family: 'Inter', -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-align: justify;
   overflow-x: hidden;
+}
+
+/* Narrow lines only fit a few words, so justifying opens big gaps between them */
+@media (max-width: 767px) {
+  body {
+    text-align: left;
+  }
 }
 
 html {
@@ -15,18 +91,63 @@ html {
 
 /* React Bits: Hexagon Grid Background */
 .hex-grid {
-  background-color: #050505;
+  background-color: var(--page);
+  /* SVG data URIs can't read CSS variables, so the light version is a separate rule */
   background-image: url("data:image/svg+xml,%3Csvg width='60' height='103.92304845413264' viewBox='0 0 60 103.92304845413264' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 103.92304845413264L0 86.60254037844386V51.96152422706632L30 34.64101615137754L60 51.96152422706632V86.60254037844386Z' fill='none' stroke='rgba(255,255,255,0.04)' stroke-width='1'/%3E%3Cpath d='M0 34.64101615137754L30 17.32050807568877L60 34.64101615137754' fill='none' stroke='rgba(255,255,255,0.04)' stroke-width='1'/%3E%3C/svg%3E");
   background-attachment: fixed;
+}
+
+.light .hex-grid {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='103.92304845413264' viewBox='0 0 60 103.92304845413264' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 103.92304845413264L0 86.60254037844386V51.96152422706632L30 34.64101615137754L60 51.96152422706632V86.60254037844386Z' fill='none' stroke='rgba(0,0,0,0.06)' stroke-width='1'/%3E%3Cpath d='M0 34.64101615137754L30 17.32050807568877L60 34.64101615137754' fill='none' stroke='rgba(0,0,0,0.06)' stroke-width='1'/%3E%3C/svg%3E");
+}
+
+/* FAQ: gradient border that rotates around the open item.
+   A large square of conic gradient spins behind the card and the card's
+   overflow clips it to the 1px border. Rotating with transform keeps the
+   animation on the compositor; animating the gradient angle itself would
+   re-run style recalc on the main thread every frame. */
+.faq-spin-border {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  /* Must exceed the card's diagonal so the corners stay covered while it turns */
+  width: max(150%, 40rem);
+  aspect-ratio: 1;
+  background: conic-gradient(
+    rgba(249, 115, 22, 0.25),
+    #f97316 20%,
+    #f43f5e 35%,
+    rgba(244, 63, 94, 0.25) 50%,
+    rgba(249, 115, 22, 0.25) 75%,
+    #fbbf24 90%,
+    rgba(249, 115, 22, 0.25)
+  );
+  transform: translate(-50%, -50%);
+}
+
+.faq-spin-border.is-spinning {
+  animation: faq-spin 5s linear infinite;
+}
+
+@keyframes faq-spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-spin-border.is-spinning {
+    animation: none;
+  }
 }
 
 /* React Bits: Shiny Text Effect */
 .shiny-text {
   background: linear-gradient(
     120deg,
-    rgba(255, 255, 255, 0.2) 40%,
-    rgba(255, 255, 255, 1) 50%,
-    rgba(255, 255, 255, 0.2) 60%
+    var(--shine-dim) 40%,
+    var(--shine-bright) 50%,
+    var(--shine-dim) 60%
   );
   background-size: 200% auto;
   color: #000;

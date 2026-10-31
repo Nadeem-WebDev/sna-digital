@@ -43,7 +43,7 @@ export const CustomCursor = () => {
       
       {/* Outer ring (expands on hover) */}
       <motion.div
-        className="fixed top-0 left-0 w-8 h-8 border-2 border-orange-500 rounded-full pointer-events-none z-[100] mix-blend-screen"
+        className="fixed top-0 left-0 w-8 h-8 border-2 border-orange-500 rounded-full pointer-events-none z-[100] mix-blend-screen light:mix-blend-normal"
         animate={{
           x: mousePosition.x - 16,
           y: mousePosition.y - 16,

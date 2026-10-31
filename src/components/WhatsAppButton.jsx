@@ -43,9 +43,9 @@ export const WhatsAppButton = () => {
       </div>
 
       {/* Hover Tooltip */}
-      <div className="absolute right-full mr-4 px-3 py-2 bg-neutral-900 border border-white/10 rounded-lg text-sm font-medium text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap shadow-xl">
+      <div className="absolute right-full mr-4 px-3 py-2 bg-panel border border-contrast/10 rounded-lg text-sm font-medium text-fg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap shadow-xl">
         Chat with me
-        <div className="absolute top-1/2 -right-1.5 -translate-y-1/2 w-3 h-3 bg-neutral-900 border-r border-t border-white/10 rotate-45" />
+        <div className="absolute top-1/2 -right-1.5 -translate-y-1/2 w-3 h-3 bg-panel border-r border-t border-contrast/10 rotate-45" />
       </div>
     </motion.a>
   );

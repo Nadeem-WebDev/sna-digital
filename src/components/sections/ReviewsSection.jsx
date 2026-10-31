@@ -49,9 +49,9 @@ export const ReviewsSection = () => {
   }, [isPaused, handleNext]);
 
   return (
-    <section id='reviews' className="w-full py-24 bg-[#050505] border-y border-neutral-800 flex justify-center overflow-hidden">
+    <section id='reviews' className="w-full py-24 bg-page border-y border-edge flex justify-center overflow-hidden">
       <div className="w-full max-w-5xl mx-auto px-6 text-center">
-        <h2 className="text-3xl md:text-5xl font-bold mb-16 text-white">Client Success</h2>
+        <h2 className="text-3xl md:text-5xl font-bold mb-16 text-fg">Client Success</h2>
         
         <div 
           className="relative w-full max-w-4xl mx-auto"
@@ -62,7 +62,7 @@ export const ReviewsSection = () => {
           <button 
             onClick={handlePrev}
             aria-label="Previous review"
-            className="absolute left-0 top-1/2 -translate-y-1/2 -ml-2 md:-ml-8 z-10 p-3 bg-neutral-900 border border-neutral-800 rounded-full text-white hover:bg-orange-500 hover:border-orange-500 transition-colors shadow-xl"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -ml-2 md:-ml-8 z-10 p-3 bg-panel border border-edge rounded-full text-fg hover:bg-orange-500 hover:text-white hover:border-orange-500 transition-colors shadow-xl"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
@@ -70,7 +70,7 @@ export const ReviewsSection = () => {
           <button 
             onClick={handleNext}
             aria-label="Next review"
-            className="absolute right-0 top-1/2 -translate-y-1/2 -mr-2 md:-mr-8 z-10 p-3 bg-neutral-900 border border-neutral-800 rounded-full text-white hover:bg-orange-500 hover:border-orange-500 transition-colors shadow-xl"
+            className="absolute right-0 top-1/2 -translate-y-1/2 -mr-2 md:-mr-8 z-10 p-3 bg-panel border border-edge rounded-full text-fg hover:bg-orange-500 hover:text-white hover:border-orange-500 transition-colors shadow-xl"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
@@ -84,16 +84,16 @@ export const ReviewsSection = () => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -50 }}
                 transition={{ duration: 0.3 }}
-                className="bg-neutral-900/40 border border-neutral-800 p-8 md:p-14 rounded-[2rem] text-left flex flex-col relative shadow-2xl"
+                className="bg-panel/40 border border-edge p-8 md:p-14 rounded-[2rem] text-left flex flex-col relative shadow-2xl"
               >
-                <Quote className="absolute top-8 right-8 w-12 h-12 text-neutral-800/50" />
+                <Quote className="absolute top-8 right-8 w-12 h-12 text-edge" />
                 <div className="flex gap-1 mb-8 text-amber-500">
                   {[...Array(5)].map((_, idx) => <Star key={idx} className="w-5 h-5 fill-current" />)}
                 </div>
-                <p className="text-lg md:text-2xl text-neutral-300 italic mb-10 leading-relaxed relative z-10">"{reviews[currentIndex].text}"</p>
-                <div className="mt-auto pt-6 border-t border-neutral-800">
-                  <p className="font-bold text-white text-lg">{reviews[currentIndex].author}</p>
-                  <p className="text-sm font-medium text-rose-400 mt-1">{reviews[currentIndex].business}</p>
+                <p className="text-lg md:text-2xl text-fg-soft italic mb-10 leading-relaxed relative z-10">"{reviews[currentIndex].text}"</p>
+                <div className="mt-auto pt-6 border-t border-edge">
+                  <p className="font-bold text-fg text-lg">{reviews[currentIndex].author}</p>
+                  <p className="text-sm font-medium text-rose-400 light:text-rose-600 mt-1">{reviews[currentIndex].business}</p>
                 </div>
               </motion.div>
             </AnimatePresence>
@@ -109,7 +109,7 @@ export const ReviewsSection = () => {
                 aria-current={currentIndex === idx}
                 className="group/dot flex items-center justify-center min-w-6 h-6 px-1"
               >
-                <span className={`block h-2 rounded-full transition-all duration-300 ${currentIndex === idx ? 'w-8 bg-orange-500' : 'w-2 bg-neutral-700 group-hover/dot:bg-neutral-500'}`} />
+                <span className={`block h-2 rounded-full transition-all duration-300 ${currentIndex === idx ? 'w-8 bg-orange-500' : 'w-2 bg-edge-strong group-hover/dot:bg-subtle'}`} />
               </button>
             ))}
           </div>

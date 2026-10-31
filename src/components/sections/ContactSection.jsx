@@ -48,12 +48,12 @@ export const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="w-full py-28 md:py-40 bg-[#0a0a0a] flex justify-center relative z-20">
+    <section id="contact" className="w-full py-28 md:py-40 bg-card flex justify-center relative z-20">
       <div className="w-full max-w-3xl mx-auto px-6">
         
         <div className="flex flex-col items-center text-center mb-16 md:mb-24">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">Let's Build Together</h2>
-          <p className="text-gray-400 text-lg md:text-xl">Ready to scale? Drop your details and let's discuss your project.</p>
+          <h2 className="text-4xl md:text-5xl font-bold text-fg mb-6 tracking-tight">Let's Build Together</h2>
+          <p className="text-muted text-lg md:text-xl">Ready to scale? Drop your details and let's discuss your project.</p>
         </div>
 
         <motion.form 
@@ -61,32 +61,32 @@ export const ContactSection = () => {
           whileInView={{ opacity: 1, y: 0 }} 
           viewport={{ once: true }} 
           onSubmit={handleSubmit}
-          className="w-full bg-[#111111] border border-white/10 rounded-[2rem] p-8 md:p-12 shadow-2xl flex flex-col"
+          className="w-full bg-inset border border-contrast/10 rounded-[2rem] p-8 md:p-12 shadow-2xl flex flex-col"
         >
           <div className="space-y-6 mb-10 w-full">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
               <div className="w-full">
-                <label className="block text-sm font-medium text-gray-300 mb-3">Name</label>
+                <label className="block text-sm font-medium text-fg-soft mb-3">Name</label>
                 <input 
                   type="text" name="name" required value={formData.name} onChange={handleChange}
-                  className="w-full px-5 py-4 bg-[#050505] border border-white/10 rounded-xl text-white placeholder-gray-600 focus:outline-none focus:border-orange-500 transition-colors" 
+                  className="w-full px-5 py-4 bg-page border border-contrast/10 rounded-xl text-fg placeholder-subtle focus:outline-none focus:border-orange-500 transition-colors" 
                   placeholder="John Doe" 
                 />
               </div>
               <div className="w-full">
-                <label className="block text-sm font-medium text-gray-300 mb-3">Email</label>
+                <label className="block text-sm font-medium text-fg-soft mb-3">Email</label>
                 <input 
                   type="email" name="email" required value={formData.email} onChange={handleChange}
-                  className="w-full px-5 py-4 bg-[#050505] border border-white/10 rounded-xl text-white placeholder-gray-600 focus:outline-none focus:border-orange-500 transition-colors" 
+                  className="w-full px-5 py-4 bg-page border border-contrast/10 rounded-xl text-fg placeholder-subtle focus:outline-none focus:border-orange-500 transition-colors" 
                   placeholder="john@example.com" 
                 />
               </div>
             </div>
             <div className="w-full">
-              <label className="block text-sm font-medium text-gray-300 mb-3">Message</label>
+              <label className="block text-sm font-medium text-fg-soft mb-3">Message</label>
               <textarea 
                 rows={5} name="message" required value={formData.message} onChange={handleChange}
-                className="w-full px-5 py-4 bg-[#050505] border border-white/10 rounded-xl text-white placeholder-gray-600 focus:outline-none focus:border-orange-500 transition-colors resize-none" 
+                className="w-full px-5 py-4 bg-page border border-contrast/10 rounded-xl text-fg placeholder-subtle focus:outline-none focus:border-orange-500 transition-colors resize-none" 
                 placeholder="Tell me about your business goals..." 
               />
             </div>
@@ -112,10 +112,10 @@ export const ContactSection = () => {
         </motion.form>
 
         <div className="flex justify-center gap-6 mt-20">
-            <a href="https://github.com/Nadeem-WebDev" target="_blank" rel="noreferrer" className="p-4 flex items-center justify-center rounded-2xl bg-[#111111] border border-white/10 text-gray-400 hover:text-amber-500 hover:border-amber-500/30 transition-all shadow-lg"><FiGithub className="w-6 h-6"/></a>
-            <a href="https://www.linkedin.com/in/nadeem-shaikh-1035a4345/" target="_blank" rel="noreferrer" className="p-4 flex items-center justify-center rounded-2xl bg-[#111111] border border-white/10 text-gray-400 hover:text-amber-500 hover:border-amber-500/30 transition-all shadow-lg"><FiLinkedin className="w-6 h-6"/></a>
-            <a href="https://www.instagram.com/nadeem_7_shaikh/" target="_blank" rel="noreferrer" className="p-4 flex items-center justify-center rounded-2xl bg-[#111111] border border-white/10 text-gray-400 hover:text-amber-500 hover:border-amber-500/30 transition-all shadow-lg"><FiInstagram className="w-6 h-6"/></a>
-            <a href="mailto:nadeem786shaikh92@gmail.com" className="p-4 flex items-center justify-center rounded-2xl bg-[#111111] border border-white/10 text-gray-400 hover:text-amber-500 hover:border-amber-500/30 transition-all shadow-lg"><Mail className="w-6 h-6"/></a>
+            <a href="https://github.com/Nadeem-WebDev" target="_blank" rel="noreferrer" className="p-4 flex items-center justify-center rounded-2xl bg-inset border border-contrast/10 text-muted hover:text-amber-500 hover:border-amber-500/30 transition-all shadow-lg"><FiGithub className="w-6 h-6"/></a>
+            <a href="https://www.linkedin.com/in/nadeem-shaikh-1035a4345/" target="_blank" rel="noreferrer" className="p-4 flex items-center justify-center rounded-2xl bg-inset border border-contrast/10 text-muted hover:text-amber-500 hover:border-amber-500/30 transition-all shadow-lg"><FiLinkedin className="w-6 h-6"/></a>
+            <a href="https://www.instagram.com/nadeem_7_shaikh/" target="_blank" rel="noreferrer" className="p-4 flex items-center justify-center rounded-2xl bg-inset border border-contrast/10 text-muted hover:text-amber-500 hover:border-amber-500/30 transition-all shadow-lg"><FiInstagram className="w-6 h-6"/></a>
+            <a href="mailto:nadeem786shaikh92@gmail.com" className="p-4 flex items-center justify-center rounded-2xl bg-inset border border-contrast/10 text-muted hover:text-amber-500 hover:border-amber-500/30 transition-all shadow-lg"><Mail className="w-6 h-6"/></a>
         </div>
       </div>
     </section>

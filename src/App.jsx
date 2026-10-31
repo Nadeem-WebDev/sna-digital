@@ -6,6 +6,7 @@ import { FloatingNav } from './components/navigation/FloatingNav';
 import { HeroSection } from './components/sections/HeroSection';
 import { Footer } from './components/sections/Footer';
 import { WhatsAppButton } from './components/WhatsAppButton';
+import { ThemeToggle } from './components/ThemeToggle';
 import { CustomCursor } from './components/CustomCursor';
 import { LenisScroll } from './components/LenisScroll';
 import { lazyWhenVisible } from './utils/lazyWhenVisible';
@@ -97,9 +98,10 @@ function App({ initialProjects = [] }) {
       
       <CustomCursor />
       <FloatingNav />
+      <ThemeToggle />
       <WhatsAppButton />
       
-      <main className="w-full min-h-screen bg-[#050505] text-white flex flex-col items-center overflow-x-hidden">
+      <main className="w-full min-h-screen bg-page text-fg flex flex-col items-center overflow-x-hidden">
         <HeroSection />
         <BelowFold initialProjects={initialProjects} />
       </main>

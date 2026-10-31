@@ -62,12 +62,12 @@ export const Preloader = ({ onComplete }) => {
       {/* Left Curtain */}
       <div 
         ref={leftCurtainRef}
-        className="absolute left-0 top-0 h-full w-1/2 bg-[#050505] origin-left"
+        className="absolute left-0 top-0 h-full w-1/2 bg-page origin-left"
       />
       {/* Right Curtain */}
       <div 
         ref={rightCurtainRef}
-        className="absolute right-0 top-0 h-full w-1/2 bg-[#050505] origin-right"
+        className="absolute right-0 top-0 h-full w-1/2 bg-page origin-right"
       />
 
       {/* Loading Content */}
@@ -83,14 +83,14 @@ export const Preloader = ({ onComplete }) => {
         </div>
         
         <motion.p
-          className="text-sm md:text-base text-gray-400 font-mono tracking-widest uppercase"
+          className="text-sm md:text-base text-muted font-mono tracking-widest uppercase"
           animate={{ opacity: [0.5, 1] }}
           transition={{ duration: 1, repeat: Infinity }}
         >
           Initializing Portfolio
         </motion.p>
         
-        <div className="w-64 h-1 bg-white/10 rounded-full overflow-hidden">
+        <div className="w-64 h-1 bg-contrast/10 rounded-full overflow-hidden">
           <motion.div
             className="h-full bg-gradient-to-r from-orange-500 to-rose-500"
             initial={{ width: 0 }}

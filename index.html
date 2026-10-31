@@ -38,6 +38,16 @@
     <!-- Theme Color for Mobile Browsers -->
     <meta name="theme-color" content="#050505" />
 
+    <!-- Apply the saved light/dark theme before first paint so there's no flash -->
+    <script>
+      try {
+        if (localStorage.getItem('theme') === 'light') {
+          document.documentElement.classList.add('light');
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fafaf9');
+        }
+      } catch (e) {}
+    </script>
+
     <!-- Local SEO Schema for Google -->
     <script type="application/ld+json">
     {

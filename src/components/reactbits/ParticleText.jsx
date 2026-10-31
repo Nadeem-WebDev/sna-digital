@@ -90,6 +90,7 @@ const ParticleText = ({
     let width = 0;
     let height = 0;
     let dpr = 1;
+    let compact = false;
 
     const pointer = {
       active: false,
@@ -139,7 +140,7 @@ const ParticleText = ({
     const render = now => {
       ctx.clearRect(0, 0, width, height);
 
-      if (glow && !reducedMotion) {
+      if (glow && !reducedMotion && !compact) {
         ctx.shadowBlur = particleSize * 3;
         ctx.shadowColor = highlightColor;
       } else {
@@ -165,8 +166,10 @@ const ParticleText = ({
           if (progress < 1) complete = false;
         } else if (!reducedMotion && idleDrift > 0) {
           const driftTime = now * 0.001;
-          baseX += Math.sin(driftTime * 0.9 + particle.seed * 10) * idleDrift * particle.depth;
-          baseY += Math.cos(driftTime * 0.75 + particle.depth * 10) * idleDrift * particle.depth;
+          // Particles are packed tighter in compact mode, so a full drift would blur the edges
+          const drift = idleDrift * particle.depth * (compact ? 0.35 : 1);
+          baseX += Math.sin(driftTime * 0.9 + particle.seed * 10) * drift;
+          baseY += Math.cos(driftTime * 0.75 + particle.depth * 10) * drift;
         }
 
         if (pointer.active && !reducedMotion && pointerRepel > 0 && repelRadius > 0) {
@@ -245,6 +248,10 @@ const ParticleText = ({
         metrics = offCtx.measureText(content);
       }
 
+      // Text squeezed into a narrow container needs denser sampling, finer
+      // particles and no glow, or the letters dissolve into noise
+      compact = resolvedSize < 64;
+
       const left = Math.ceil(metrics.actualBoundingBoxLeft || 0);
       const right = Math.ceil(metrics.actualBoundingBoxRight || metrics.width);
       const ascent = Math.ceil(metrics.actualBoundingBoxAscent || resolvedSize * 0.78);
@@ -253,9 +260,16 @@ const ParticleText = ({
       const textWidth = Math.max(1, left + right);
       const textHeight = Math.max(1, ascent + descent);
 
-      offscreen.width = textWidth + padding * 2;
-      offscreen.height = textHeight + padding * 2;
-      offCtx.clearRect(0, 0, offscreen.width, offscreen.height);
+      // Compact text is rasterised at 2x and sampled every 3 device pixels, i.e. a
+      // particle every 1.5 CSS px – finer than whole-pixel steps allow
+      const sampleScale = compact ? 2 : 1;
+      const textBoxWidth = textWidth + padding * 2;
+      const textBoxHeight = textHeight + padding * 2;
+
+      offscreen.width = textBoxWidth * sampleScale;
+      offscreen.height = textBoxHeight * sampleScale;
+      offCtx.setTransform(sampleScale, 0, 0, sampleScale, 0, 0);
+      offCtx.clearRect(0, 0, textBoxWidth, textBoxHeight);
       offCtx.font = font;
       offCtx.textAlign = 'left';
       offCtx.textBaseline = 'alphabetic';
@@ -264,22 +278,22 @@ const ParticleText = ({
 
       const imageData = offCtx.getImageData(0, 0, offscreen.width, offscreen.height);
       const targets = [];
-      const step = Math.max(2, Math.floor(density));
+      const step = compact ? 3 : Math.max(2, Math.floor(density));
 
       for (let y = 0; y < offscreen.height; y += step) {
         for (let x = 0; x < offscreen.width; x += step) {
           const alpha = imageData.data[(y * offscreen.width + x) * 4 + 3];
           if (alpha > 40) {
             targets.push({
-              x: width / 2 - offscreen.width / 2 + x,
-              y: height / 2 - offscreen.height / 2 + y,
+              x: width / 2 - textBoxWidth / 2 + x / sampleScale,
+              y: height / 2 - textBoxHeight / 2 + y / sampleScale,
               alpha: alpha / 255
             });
           }
         }
       }
 
-      const maxParticles = Math.max(900, Math.min(5200, Math.floor((width * height) / 90)));
+      const maxParticles = Math.max(compact ? 7000 : 900, Math.min(5200, Math.floor((width * height) / 90)));
       const stride = Math.max(1, Math.ceil(targets.length / maxParticles));
       const baseRgb = hexToRgb(color);
       const highlightRgb = hexToRgb(highlightColor);
@@ -302,7 +316,7 @@ const ParticleText = ({
           startY,
           targetX: target.x,
           targetY: target.y,
-          size: Math.max(0.6, particleSize * (0.75 + target.alpha * 0.45)),
+          size: Math.max(0.6, particleSize * (compact ? 0.65 : 1) * (0.75 + target.alpha * 0.45)),
           color: particleColor,
           seed,
           depth,

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Home, User, Briefcase, Layers, Folder, Star, Mail } from 'lucide-react';
+import { useTheme } from '../../hooks/useTheme';
 
 const navItems = [
   { name: 'Home', icon: Home, href: '#' },
@@ -14,6 +15,8 @@ const navItems = [
 
 export const FloatingNav = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const { theme } = useTheme();
+  const iconColor = theme === 'light' ? '#57534e' : '#9ca3af';
 
   return (
     <motion.div 
@@ -22,7 +25,7 @@ export const FloatingNav = () => {
       transition={{ delay: 1, duration: 0.8, type: 'spring' }}
       className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[90]"
     >
-      <div className="flex items-center gap-2 p-3 bg-black/50 backdrop-blur-xl border border-white/10 rounded-full shadow-2xl">
+      <div className="flex items-center gap-2 p-3 bg-page/60 backdrop-blur-xl border border-contrast/10 rounded-full shadow-2xl">
         {navItems.map((item, idx) => (
           <a
             key={idx}
@@ -30,7 +33,7 @@ export const FloatingNav = () => {
             aria-label={item.name}
             onMouseEnter={() => setHoveredIndex(idx)}
             onMouseLeave={() => setHoveredIndex(null)}
-            className="relative p-3 rounded-full hover:bg-white/10 transition-colors group flex items-center justify-center"
+            className="relative p-3 rounded-full hover:bg-contrast/10 transition-colors group flex items-center justify-center"
           >
             {/* React Bits Tooltip Animation */}
             <AnimatePresence>
@@ -39,11 +42,11 @@ export const FloatingNav = () => {
                   initial={{ opacity: 0, y: 10, scale: 0.8 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.8 }}
-                  className="absolute -top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-neutral-900 border border-white/10 rounded-lg text-xs font-semibold text-white whitespace-nowrap shadow-xl"
+                  className="absolute -top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-panel border border-contrast/10 rounded-lg text-xs font-semibold text-fg whitespace-nowrap shadow-xl"
                 >
                   {item.name}
                   {/* Tooltip Arrow */}
-                  <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-neutral-900 border-b border-r border-white/10 rotate-45" />
+                  <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-panel border-b border-r border-contrast/10 rotate-45" />
                 </motion.div>
               )}
             </AnimatePresence>
@@ -53,7 +56,7 @@ export const FloatingNav = () => {
               animate={{ 
                 scale: hoveredIndex === idx ? 1.3 : 1,
                 y: hoveredIndex === idx ? -4 : 0,
-                color: hoveredIndex === idx ? '#f97316' : '#9ca3af' // Turns orange on hover
+                color: hoveredIndex === idx ? '#f97316' : iconColor // Turns orange on hover
               }}
               transition={{ type: 'spring', stiffness: 400, damping: 20 }}
             >

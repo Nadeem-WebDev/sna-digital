@@ -23,11 +23,11 @@ const tech = [
 
 export const TechStackShowcase = () => {
   return (
-    <section id='tech' className="w-full py-24 bg-[#050505] border-y border-neutral-800 flex justify-center">
+    <section id='tech' className="w-full py-24 bg-page border-y border-edge flex justify-center">
       <div className="w-full max-w-6xl mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white">Our Arsenal</h2>
-          <p className="text-neutral-400 text-lg">The modern stack we use to build robust, full-stack applications.</p>
+          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-fg">Our Arsenal</h2>
+          <p className="text-muted text-lg">The modern stack we use to build robust, full-stack applications.</p>
         </div>
         
         <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
@@ -38,10 +38,10 @@ export const TechStackShowcase = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.05 }}
-              className="flex flex-col items-center justify-center p-6 bg-neutral-900/40 border border-neutral-800 rounded-2xl hover:border-orange-500/40 transition-colors shadow-lg"
+              className="flex flex-col items-center justify-center p-6 bg-panel/40 border border-edge rounded-2xl hover:border-orange-500/40 transition-colors shadow-lg"
             >
               <item.icon className="w-8 h-8 text-amber-500 mb-4 opacity-80" />
-              <span className="text-sm font-semibold text-neutral-300 text-center">{item.name}</span>
+              <span className="text-sm font-semibold text-fg-soft text-center">{item.name}</span>
             </motion.div>
           ))}
         </div>
