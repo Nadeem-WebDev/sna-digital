@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { ExternalLink, ChevronLeft, ChevronRight, Loader2, AlertCircle } from 'lucide-react';
+import { MousePointerClick, ChevronLeft, ChevronRight, Loader2, AlertCircle } from 'lucide-react';
 import { FiGithub } from 'react-icons/fi';
 import ReactGA from 'react-ga4';
 import SplitFlapText from '../reactbits/SplitFlapText';
@@ -50,11 +50,11 @@ const ProjectCard = ({ project, handleDemoClick }) => {
       >
         {/* Inner Card Content with Parallax Pop */}
         <div 
-          className="relative flex flex-col flex-grow w-full rounded-[1.5rem] bg-card border border-contrast/10 group-hover:border-orange-500/50 group-hover:shadow-2xl group-hover:shadow-orange-500/20 transition-all duration-500 overflow-hidden z-10 text-left"
+          className="relative flex flex-col flex-grow w-full rounded-[1.5rem] bg-card border border-contrast/10 group-hover:shadow-2xl group-hover:shadow-orange-500/20 transition-all duration-500 overflow-hidden z-10 text-left"
           style={{ transform: "translateZ(40px)" }} 
         >
-          {/* ✨ NEW: Soft Inner Gradient Glow on Hover ✨ */}
-          <div className="absolute inset-0 bg-gradient-to-br from-orange-500/15 via-transparent to-rose-500/15 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0" />
+          {/* Hover glow (same style as the tech stack cards), centred on the text area below the image */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_70%,rgba(249,115,22,0.22),rgba(244,63,94,0.08)_45%,transparent_75%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0" />
 
           {/* Image Area - z-10 keeps it above the background gradient */}
           <div className="relative w-full h-48 overflow-hidden rounded-t-[1.5rem] border-b border-contrast/10 flex-shrink-0 bg-inset z-10">
@@ -84,9 +84,10 @@ const ProjectCard = ({ project, handleDemoClick }) => {
                 target={hasLiveUrl ? "_blank" : "_self"}
                 rel={hasLiveUrl ? "noreferrer" : undefined}
                 onClick={() => handleDemoClick(project.title)}
-                className="flex-1 flex items-center justify-center gap-2 py-3 bg-gradient-to-r from-orange-500 to-rose-500 hover:from-orange-400 hover:to-rose-400 rounded-xl text-sm font-bold text-white shadow-lg shadow-orange-500/20 hover:shadow-orange-500/50 transform hover:-translate-y-1 hover:scale-[1.02] active:scale-95 transition-all duration-200"
+                className="group/live flex-1 flex items-center justify-center gap-2 py-3 bg-gradient-to-r from-orange-500 to-rose-500 hover:from-orange-400 hover:to-rose-400 rounded-xl text-sm font-bold text-white shadow-lg shadow-orange-500/20 hover:shadow-orange-500/50 transform hover:-translate-y-1 hover:scale-[1.02] active:scale-95 transition-all duration-200"
               >
-                <ExternalLink className="w-4 h-4" /> Live
+                <MousePointerClick strokeWidth={2.5} className="w-[18px] h-[18px] -translate-y-0.5 group-hover/live:-rotate-12 group-hover/live:scale-110 transition-transform duration-200" />
+                <span>Live</span>
               </a>
               <a
                 href={project.githubUrl}
@@ -102,6 +103,16 @@ const ProjectCard = ({ project, handleDemoClick }) => {
       </motion.div>
     </div>
   );
+};
+
+const headingReveal = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
+
+const subheadingReveal = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { delay: 0.1 } },
 };
 
 // --- Main Section Component ---
@@ -163,12 +174,14 @@ export const ProjectsSection = ({ initialProjects = [] }) => {
   };
 
   return (
-    <section id="projects" className="w-full py-32 bg-page border-t border-contrast/5 flex justify-center z-20">
+    <section id="projects" className="w-full py-16 md:py-20 bg-page border-t border-contrast/5 flex justify-center z-20">
       <div className="w-full max-w-7xl mx-auto px-6">
-        <div className="mb-20 text-center">
-          <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} className="text-4xl md:text-5xl font-bold mb-6 text-fg tracking-tight">Delivered Solutions</motion.h2>
-          <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} transition={{ delay: 0.1 }} className="text-muted text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">Real-world applications engineered to solve complex operational bottlenecks.</motion.p>
-        </div>
+        {/* The wrapper (which never moves) watches the viewport, not the sliding text:
+            observing the text itself made it flicker in and out at the screen edge */}
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: false, amount: 0.2 }} className="mb-10 md:mb-14 text-center">
+          <motion.h2 variants={headingReveal} className="text-4xl md:text-5xl font-bold mb-6 text-fg tracking-tight">Delivered Solutions</motion.h2>
+          <motion.p variants={subheadingReveal} className="text-muted text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">Real-world applications engineered to solve complex operational bottlenecks.</motion.p>
+        </motion.div>
 
         {isLoading ? (
           <div className="flex justify-center items-center py-20">
@@ -197,7 +210,7 @@ export const ProjectsSection = ({ initialProjects = [] }) => {
 
             {/* Pagination Controls */}
             {totalPages > 1 && (
-              <div className="flex justify-center items-center gap-6 mt-16">
+              <div className="flex justify-center items-center gap-6 mt-12">
                 <motion.button 
                   whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
                   onClick={() => handlePageChange(Math.max(currentPage - 1, 1))} 

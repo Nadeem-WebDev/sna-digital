@@ -21,9 +21,9 @@ const services = [
 
 export const ServicesSection = () => {
   return (
-    <section id="services" className="w-full py-32 bg-page border-t border-contrast/5 relative z-20 flex justify-center">
+    <section id="services" className="w-full py-16 md:py-20 bg-page border-t border-contrast/5 relative z-20 flex justify-center">
       <div className="w-full max-w-6xl mx-auto px-6">
-        <div className="mb-20 text-center">
+        <div className="mb-10 md:mb-14 text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-fg tracking-tight">How We Drive Growth</h2>
           <p className="text-muted text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">End-to-end digital solutions designed specifically to increase your revenue and scale your brand.</p>
         </div>
@@ -36,7 +36,7 @@ export const ServicesSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.5 }}
-              className="group bg-contrast/[0.02] border border-contrast/10 rounded-3xl p-10 hover:bg-contrast/[0.04] hover:border-orange-500/50 transition-all duration-300 relative overflow-hidden flex flex-col items-start"
+              className="group bg-contrast/[0.02] border border-contrast/10 rounded-3xl p-10 hover:bg-contrast/[0.04] transition-all duration-300 relative overflow-hidden flex flex-col items-start"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 rounded-full blur-3xl group-hover:bg-orange-500/20 transition-colors" />
               <div className="p-4 bg-page border border-contrast/10 rounded-2xl mb-8 group-hover:scale-110 transition-transform">

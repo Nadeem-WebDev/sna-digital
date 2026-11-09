@@ -21,14 +21,10 @@ const FaqItem = ({ faq, isOpen, onToggle, index }) => {
       viewport={{ once: true }}
       transition={{ delay: Math.min(index * 0.05, 0.3), duration: 0.4 }}
       onMouseMove={trackSpotlight}
-      className={`group relative rounded-2xl p-px overflow-hidden transition-shadow duration-500 ${isOpen ? 'shadow-2xl shadow-orange-500/10' : ''}`}
+      className="group relative rounded-2xl p-px overflow-hidden"
     >
-      {/* Border: a faint outline when closed, a spinning gradient when open */}
+      {/* Border: a faint outline that brightens on hover */}
       <div className="absolute inset-0 bg-contrast/10 group-hover:bg-contrast/20 transition-colors duration-300" />
-      <div className={`absolute inset-0 overflow-hidden rounded-2xl transition-opacity duration-500 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
-        {/* Only the open item spins, so closed items cost nothing */}
-        <div className={`faq-spin-border ${isOpen ? 'is-spinning' : ''}`} />
-      </div>
 
       <div className="relative rounded-[15px] bg-card overflow-hidden">
         {/* Cursor spotlight */}
@@ -92,13 +88,13 @@ export const FaqSection = () => {
   const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <section id="faq" className="w-full py-32 bg-page border-t border-contrast/5 relative z-20 flex justify-center overflow-hidden">
+    <section id="faq" className="w-full py-16 md:py-20 bg-page border-t border-contrast/5 relative z-20 flex justify-center overflow-hidden">
       {/* Ambient glows */}
       <div className="absolute top-24 -left-32 w-96 h-96 bg-orange-500/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-10 -right-32 w-96 h-96 bg-rose-500/10 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="relative w-full max-w-4xl mx-auto px-6">
-        <div className="mb-16 flex flex-col items-center text-center">
+        <div className="mb-10 md:mb-14 flex flex-col items-center text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
             className="mb-6 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-panel/80 border border-edge backdrop-blur-md"

@@ -5,6 +5,13 @@ import { FiGithub, FiLinkedin, FiInstagram } from 'react-icons/fi';
 import emailjs from '@emailjs/browser';
 import ReactGA from 'react-ga4';
 
+const socialLinks = [
+  { label: 'GitHub', href: 'https://github.com/Nadeem-WebDev', icon: FiGithub },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/nadeem-shaikh-1035a4345/', icon: FiLinkedin },
+  { label: 'Instagram', href: 'https://www.instagram.com/nadeem_7_shaikh/', icon: FiInstagram },
+  { label: 'Email', href: 'mailto:nadeem786shaikh92@gmail.com', icon: Mail },
+];
+
 export const ContactSection = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState('idle'); // idle, submitting, success, error
@@ -48,10 +55,10 @@ export const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="w-full py-28 md:py-40 bg-card flex justify-center relative z-20">
+    <section id="contact" className="w-full py-16 md:py-20 bg-card flex justify-center relative z-20">
       <div className="w-full max-w-3xl mx-auto px-6">
         
-        <div className="flex flex-col items-center text-center mb-16 md:mb-24">
+        <div className="flex flex-col items-center text-center mb-10 md:mb-14">
           <h2 className="text-4xl md:text-5xl font-bold text-fg mb-6 tracking-tight">Let's Build Together</h2>
           <p className="text-muted text-lg md:text-xl">Ready to scale? Drop your details and let's discuss your project.</p>
         </div>
@@ -111,11 +118,24 @@ export const ContactSection = () => {
           </button>
         </motion.form>
 
-        <div className="flex justify-center gap-6 mt-20">
-            <a href="https://github.com/Nadeem-WebDev" target="_blank" rel="noreferrer" className="p-4 flex items-center justify-center rounded-2xl bg-inset border border-contrast/10 text-muted hover:text-amber-500 hover:border-amber-500/30 transition-all shadow-lg"><FiGithub className="w-6 h-6"/></a>
-            <a href="https://www.linkedin.com/in/nadeem-shaikh-1035a4345/" target="_blank" rel="noreferrer" className="p-4 flex items-center justify-center rounded-2xl bg-inset border border-contrast/10 text-muted hover:text-amber-500 hover:border-amber-500/30 transition-all shadow-lg"><FiLinkedin className="w-6 h-6"/></a>
-            <a href="https://www.instagram.com/nadeem_7_shaikh/" target="_blank" rel="noreferrer" className="p-4 flex items-center justify-center rounded-2xl bg-inset border border-contrast/10 text-muted hover:text-amber-500 hover:border-amber-500/30 transition-all shadow-lg"><FiInstagram className="w-6 h-6"/></a>
-            <a href="mailto:nadeem786shaikh92@gmail.com" className="p-4 flex items-center justify-center rounded-2xl bg-inset border border-contrast/10 text-muted hover:text-amber-500 hover:border-amber-500/30 transition-all shadow-lg"><Mail className="w-6 h-6"/></a>
+        <div className="flex justify-center gap-6 mt-12 md:mt-14">
+          {socialLinks.map(({ label, href, icon: Icon }) => {
+            const external = href.startsWith('http');
+            return (
+              <a
+                key={label}
+                href={href}
+                aria-label={label}
+                target={external ? '_blank' : undefined}
+                rel={external ? 'noreferrer' : undefined}
+                className="group relative overflow-hidden p-4 flex items-center justify-center rounded-2xl bg-inset border border-contrast/10 text-muted hover:text-amber-500 shadow-lg hover:shadow-xl hover:shadow-orange-500/30 hover:-translate-y-1 transition-all duration-300"
+              >
+                {/* Same whole-tile glow as the tech stack cards */}
+                <span className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-[radial-gradient(circle,rgba(249,115,22,0.35),rgba(244,63,94,0.12)_55%,transparent_80%)]" />
+                <Icon className="relative w-6 h-6 group-hover:scale-110 group-hover:drop-shadow-[0_0_10px_rgba(245,158,11,0.8)] transition-all duration-300" />
+              </a>
+            );
+          })}
         </div>
       </div>
     </section>

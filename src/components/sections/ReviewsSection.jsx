@@ -49,9 +49,9 @@ export const ReviewsSection = () => {
   }, [isPaused, handleNext]);
 
   return (
-    <section id='reviews' className="w-full py-24 bg-page border-y border-edge flex justify-center overflow-hidden">
+    <section id='reviews' className="w-full py-16 md:py-20 bg-page border-y border-edge flex justify-center overflow-hidden">
       <div className="w-full max-w-5xl mx-auto px-6 text-center">
-        <h2 className="text-3xl md:text-5xl font-bold mb-16 text-fg">Client Success</h2>
+        <h2 className="text-3xl md:text-5xl font-bold mb-10 md:mb-14 text-fg">Client Success</h2>
         
         <div 
           className="relative w-full max-w-4xl mx-auto"
