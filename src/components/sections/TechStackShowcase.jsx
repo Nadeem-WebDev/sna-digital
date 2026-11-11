@@ -26,7 +26,7 @@ export const TechStackShowcase = () => {
     <section id='tech' className="w-full py-16 md:py-20 bg-page border-y border-edge flex justify-center">
       <div className="w-full max-w-6xl mx-auto px-6">
         <div className="text-center mb-10 md:mb-14">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-fg">Our Arsenal</h2>
+          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-fg">Tech Stack</h2>
           <p className="text-muted text-lg">The modern stack we use to build robust, full-stack applications.</p>
         </div>
         
