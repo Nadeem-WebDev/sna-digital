@@ -1,11 +1,23 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
 
+// Moves the hexagon glow; CSS variables avoid a React re-render per mouse move
+const trackHexGlow = (e) => {
+  const rect = e.currentTarget.getBoundingClientRect();
+  e.currentTarget.style.setProperty('--hex-x', `${e.clientX - rect.left}px`);
+  e.currentTarget.style.setProperty('--hex-y', `${e.clientY - rect.top}px`);
+};
+
 export const HeroSection = () => {
   return (
-    <section className="relative w-full min-h-screen flex flex-col items-center justify-center px-6 py-24 bg-page overflow-hidden">
+    <section
+      onMouseMove={trackHexGlow}
+      className="group relative w-full min-h-screen flex flex-col items-center justify-center px-6 py-24 bg-page overflow-hidden"
+    >
       {/* Backgrounds */}
       <div className="absolute inset-0 hex-grid z-0" />
+      {/* Hexagons around the cursor light up orange (mouse only: group-hover never fires on touch) */}
+      <div className="absolute inset-0 hex-grid-glow z-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       <div className="absolute inset-0 bg-gradient-to-t from-page via-transparent to-transparent z-0" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-500/10 blur-[120px] rounded-full pointer-events-none z-0" />
 
