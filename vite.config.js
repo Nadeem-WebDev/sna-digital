@@ -45,7 +45,32 @@ const vercelApiDev = (env) => ({
   },
 });
 
-export default defineConfig(({ mode }) => {
+// Vercel answers unknown URLs with dist/404.html; this makes `npm run dev` and
+// `npm run preview` do the same instead of falling back to the home page
+const notFoundPage = () => {
+  const rewriteUnknownPages = (req, _res, next) => {
+    const pathname = req.url.split('?')[0];
+    const wantsPage = req.method === 'GET' && req.headers.accept?.includes('text/html');
+    const isKnown = pathname === '/' || pathname === '/index.html' || pathname === '/404.html';
+    // Anything with a file extension, or Vite/API internals, is left alone
+    const isAssetOrInternal = path.extname(pathname) !== '' || /^\/(@|api\/|node_modules\/|src\/)/.test(pathname);
+
+    if (wantsPage && !isKnown && !isAssetOrInternal) req.url = '/404.html';
+    next();
+  };
+
+  return {
+    name: 'not-found-page',
+    configureServer(server) {
+      server.middlewares.use(rewriteUnknownPages);
+    },
+    configurePreviewServer(server) {
+      server.middlewares.use(rewriteUnknownPages);
+    },
+  };
+};
+
+export default defineConfig(({ mode, isSsrBuild }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   return {
@@ -53,6 +78,16 @@ export default defineConfig(({ mode }) => {
       tailwindcss(),
       react(),
       vercelApiDev(env),
+      notFoundPage(),
     ],
+    // Two pages: the site and the 404 page (the SSR build keeps its own entry)
+    build: isSsrBuild ? {} : {
+      rollupOptions: {
+        input: {
+          main: path.resolve('index.html'),
+          notFound: path.resolve('404.html'),
+        },
+      },
+    },
   };
 });
