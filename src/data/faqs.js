@@ -49,7 +49,7 @@ export const faqs = [
   {
     question: 'Do you work with clients outside Mumbai?',
     answer:
-      'Yes. SNA Digital is based in Goregaon West and works with businesses in Goregaon, Andheri and across Mumbai, and remotely with clients anywhere in India over WhatsApp, calls and video meetings.',
+      'Yes. SNA Digital is based in Goregaon West and works with businesses in Goregaon and across Mumbai, and remotely with clients anywhere in India over WhatsApp, calls and video meetings.',
   },
   {
     question: 'How do I get started?',

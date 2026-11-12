@@ -22,7 +22,7 @@ export function buildLlmsTxt(projects, faqs = []) {
 
 - Founder: Nadeem Shaikh, Full Stack Web Developer, B.E. Information Technology (2025)
 - Location: Bhagat Singh Nagar, Goregaon West, Mumbai, Maharashtra 400104, India
-- Serves: Goregaon, Andheri and the rest of Mumbai in person; clients across India remotely
+- Serves: Goregaon and the rest of Mumbai in person; clients across India remotely
 - Work model: freelance, project-based. Pricing is quoted per project after discussing the client's requirements.
 
 ## Services

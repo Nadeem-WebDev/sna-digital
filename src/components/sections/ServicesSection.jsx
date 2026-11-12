@@ -15,7 +15,7 @@ const services = [
   {
     icon: Search,
     title: 'Local SEO & Google Ads',
-    description: 'Dominate local search results. We ensure your business appears first when clients search for your services in your area.',
+    description: 'Dominate local search results. I ensure your business appears first when clients search for your services in your area.',
   }
 ];
 
@@ -24,7 +24,7 @@ export const ServicesSection = () => {
     <section id="services" className="w-full py-16 md:py-20 bg-page border-t border-contrast/5 relative z-20 flex justify-center">
       <div className="w-full max-w-6xl mx-auto px-6">
         <div className="mb-10 md:mb-14 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-fg tracking-tight">How We Drive Growth</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-fg tracking-tight">How I Drive Growth</h2>
           <p className="text-muted text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">End-to-end digital solutions designed specifically to increase your revenue and scale your brand.</p>
         </div>
 
